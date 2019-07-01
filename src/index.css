@@ -61,3 +61,7 @@ body {
   .show_box {
     display: inline;
   }
+
+  .select_margin{
+    margin-top:10px;
+  }
