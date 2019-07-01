@@ -30,10 +30,48 @@ class FilterGraph extends React.Component {
     this.state = {
       playerOn: true,
       bandOn: true,
-      'venueOn': false,
-      'festivalOn': false,
-      'albumOn': false,
+      venueOn: false,
+      festivalOn: false,
+      albumOn: false,
+
+      player_country: 'all',
+      festival_country: 'all',
+      band_country: 'all',
+      venue_country: 'all',
+      album_country: 'all',
+
+      list_countries: {
+        'band': ['FR',], 
+        'player': ['FR',], 
+        'festival': ['FR',], 
+        'venue': ['FR',], 
+        'album': ['FR',]},
+
+      instrument: 'all',
+      list_instruments: [],
+
+      isActive: 'all',
     }
+  }
+
+
+  async componentDidMount() {
+    // ASYNC VERSION
+    try {
+      const res = await fetch('http://localhost:5000/api/countries/?format=json');
+      const res2 = await fetch('http://localhost:5000/api/all_instruments/?format=json');
+      
+      const list_countries = await res.json();
+      this.setState({
+        list_countries
+      });
+      const instruments = await res2.json();
+      this.setState({
+        list_instruments: instruments.instruments
+      });
+    } catch (e) {
+      console.log(e);
+    } 
   }
   
   handleSubmit(event) {
@@ -42,6 +80,16 @@ class FilterGraph extends React.Component {
     queryParams = queryParams +  (this.state.venueOn ? '&venue=on' : "")
     queryParams = queryParams +  (this.state.festivalOn ? '&festival=on' : "")
     queryParams = queryParams +  (this.state.albumOn ? '&album=on' : "")
+
+    queryParams = queryParams + ((this.state.player_country !== 'all') ? ('&player_country=' + this.state.player_country) : "")
+    queryParams = queryParams + ((this.state.band_country !== 'all') ? ('&band_country=' + this.state.band_country) : "")
+    queryParams = queryParams + ((this.state.festival_country !== 'all') ? ('&festival_country=' + this.state.festival_country) : "")
+    queryParams = queryParams + ((this.state.album_country !== 'all') ? ('&album_country=' + this.state.album_country) : "")
+    queryParams = queryParams + ((this.state.venue_country !== 'all') ? ('&venue_country=' + this.state.venue_country) : "")
+
+    queryParams = queryParams + ((this.state.instrument !== 'all') ? ('&instrument=' + this.state.instrument) : "")
+
+    queryParams = queryParams + ((this.state.isActive !== 'all') ? ('&active=' + this.state.isActive) : "")
     // queryParams = 
     this.props.reloadGraph(queryParams)
     event.preventDefault();
@@ -55,6 +103,7 @@ class FilterGraph extends React.Component {
     this.setState({
       [name]: value
     })
+    // console.log(this.state.isActive)
   }
 
   render(){
@@ -63,19 +112,68 @@ class FilterGraph extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <div>
           <input type="checkbox" name="playerOn" checked={this.state.playerOn} onChange={this.handleInputChange} />Players
+          <select name='player_country' value={this.state.player_country} onChange={this.handleInputChange} className="select_margin">
+          <option value="all">All countries</option>
+            {this.state.list_countries.player.map( x => 
+              (<option value={x[0]}>{x[1]}</option>))}            
+          </select>
         </div>
+
         <div>
           <input type="checkbox" name="bandOn" checked={this.state.bandOn} onChange={this.handleInputChange} />Bands
+          <select name='band_country' value={this.state.band_country} onChange={this.handleInputChange} className="select_margin">
+          <option value="all">All countries</option>
+            {this.state.list_countries.band.map( x => 
+              (<option value={x[0]}>{x[1]}</option>))}            
+          </select>
         </div>
+
         <div>
           <input type="checkbox" name="venueOn" checked={this.state.venueOn} onChange={this.handleInputChange} />Venues
+          <select name='venue_country' value={this.state.venue_country} onChange={this.handleInputChange} className="select_margin">
+          <option value="all">All countries</option>
+            {this.state.list_countries.venue.map( x => 
+              (<option value={x[0]}>{x[1]}</option>))}            
+          </select>
         </div>
+
         <div>
           <input type="checkbox" name="festivalOn" checked={this.state.festivalOn} onChange={this.handleInputChange} />Festivals
+          <select name='festival_country' value={this.state.festival_country} onChange={this.handleInputChange} className="select_margin">
+          <option value="all">All countries</option>
+            {this.state.list_countries.festival.map( x => 
+              (<option value={x[0]}>{x[1]}</option>))}            
+          </select>
         </div>
+
         <div>
           <input type="checkbox" name="albumOn" checked={this.state.albumOn} onChange={this.handleInputChange} />Albums
+          <select name='album_country' value={this.state.album_country} onChange={this.handleInputChange} className="select_margin">
+          <option value="all">All countries</option>
+            {this.state.list_countries.album.map( x => 
+              (<option value={x[0]}>{x[1]}</option>))}            
+          </select>
         </div>
+
+        <div>
+        </div>
+        <select name='instrument' value={this.state.instrument} onChange={this.handleInputChange} className="select_margin">
+          <option value="all">All instruments</option>
+          {this.state.list_instruments.map(x => 
+            (<option value={x}>{x}</option>))}
+          </select>
+
+        <div>
+        <label>
+        Is Active:
+          <select name='isActive' value={this.state.isActive} onChange={this.handleInputChange} className="select_margin">
+            <option value='all'>All</option>
+            <option value='True'>Active</option>
+            <option value='False'>Inactive</option>
+          </select>
+        </label>
+        </div>
+
         <div>
           <input type="submit" value="Reload" className="select_margin" />
         </div>
@@ -115,13 +213,14 @@ class DjangoVerse extends React.Component {
       });
     } catch (e) {
       console.log(e);
-    } 
+    }
+    console.log(this.state.queryParams) 
   }
 
   reloadGraph(newQueryParams) {
     // "&festival=on&player=on&venue=on&band=on"
     this.setState({queryParams: newQueryParams});
-    console.log(this.state.queryParams)
+    // console.log(this.state.queryParams)
     this.componentDidMount()
   }
 
