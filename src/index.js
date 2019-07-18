@@ -1,4 +1,5 @@
 import React from 'react';
+import Select from 'react-select'
 import ReactDOM from 'react-dom';
 import ForceGraph3D from 'react-force-graph-3d';
 import './index.css';
@@ -18,7 +19,21 @@ function NodeInfo(props) {
   			<p onClick={props.closeBoxFun}>Close</p>
 			</div>
 		</div>)
+}
 
+
+function Search(props) {
+  return (<React.Fragment>
+      <div className="box_search" id='search'> 
+      <Select
+        value={props.selectedOption}
+        options={props.searchList}
+        onChange={props.handleChange}
+        placeholder= "Search..."
+        openMenuOnClick={false}
+      />
+      </div>
+    </React.Fragment>)
 }
 
 class FilterGraph extends React.Component {
@@ -90,7 +105,7 @@ class FilterGraph extends React.Component {
     queryParams = queryParams + ((this.state.instrument !== 'all') ? ('&instrument=' + this.state.instrument) : "")
 
     queryParams = queryParams + ((this.state.isActive !== 'all') ? ('&active=' + this.state.isActive) : "")
-    
+
     this.props.reloadGraph(queryParams)
     event.preventDefault();
   }
@@ -184,19 +199,6 @@ class FilterGraph extends React.Component {
 }
 
 
-function Search(props) {
-  return (<React.Fragment>
-      <div className="box_search" id='search'> 
-        <form onSubmit={props.handleSubmit}>
-          <label>
-            <input type='text' value={props.searchTerm} onChange={props.handleChange} placeholder='search..' />
-          </label>
-          <input type='submit' value='Submit' />
-        </form>
-      </div>
-    </React.Fragment>)
-}
-
 class DjangoVerse extends React.Component {
 	constructor(props) {
 		super(props)
@@ -205,7 +207,9 @@ class DjangoVerse extends React.Component {
 			queryParams: '&player=on&band=on',
 			nodeInfo: null,
       searchTerm: '',
-      filteredList: []
+      filteredList: [],
+
+      selectedOption: null,
 		}
 
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
@@ -225,14 +229,12 @@ class DjangoVerse extends React.Component {
     } catch (e) {
       console.log(e);
     }
-    console.log(this.state.queryParams) 
+    // console.log(this.state.queryParams) 
   }
 
   reloadGraph(newQueryParams) {
-    // "&festival=on&player=on&venue=on&band=on"
-    this.setState({queryParams: newQueryParams});
-    // console.log(this.state.queryParams)
-    this.componentDidMount()
+    // Callback: only reload graph after updated params
+    this.setState({queryParams: newQueryParams}, () => this.componentDidMount());
   }
 
 
@@ -255,7 +257,6 @@ class DjangoVerse extends React.Component {
   }
 
   handleSearchSubmit(event) {
-    // console.log(this.state.filteredList)
     if (this.state.filteredList.length > 0){
       this._handleClick(this.state.filteredList[0])
     }
@@ -269,17 +270,19 @@ class DjangoVerse extends React.Component {
 
   handleSearchChange(event) {
     if (event.target.value !== '') {
-      let nodeList = this.state.gypsyJazzScene.nodes
+        let nodeList = this.state.gypsyJazzScene.nodes
         let newList = nodeList.filter( x => {
           const lcTitle = x.name.toLowerCase();
           const lcSearch = event.target.value.toLowerCase();
     
           return lcTitle.includes(lcSearch)
         })
+        console.log("new list: " + newList.map(x=>x.name))
         this.setState({
           'searchTerm': event.target.value,
           filteredList: newList
         })
+        console.log("in state: " + this.state.filteredList.map(x=>x.name))
       }
 
     else {
@@ -287,17 +290,24 @@ class DjangoVerse extends React.Component {
             'searchTerm': '',
             'filteredList': []
           })}
-
-    // console.log(this.state.filteredList.map(x=>x.name))
-
   }
 
+  handleChangeSearch = selectedOption => {
+    this.setState({selectedOption: selectedOption}, () => this._handleClick(selectedOption));
+ }
+
   render() {
+    let searchList = this.state.gypsyJazzScene.nodes.map(obj => ({...obj, value: obj.name, label: obj.name}))
+        
     return (
       <React.Fragment>
         {this.state.nodeInfo && <NodeInfo nodeInfo={this.state.nodeInfo} closeBoxFun={() => {this.handleCloseNodeInfo()}}/>}
         <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}/>
-        <Search handleSubmit={this.handleSearchSubmit} handleChange={this.handleSearchChange} searchTerm={this.state.searchTerm} />
+
+        <Search selectedOption={this.state.selectedOption} searchList={searchList} handleChange={this.handleChangeSearch} />
+
+        {console.log("selected option: " + this.state.selectedOption)}
+
         <ForceGraph3D
           ref={el => { this.fg = el; }}
           graphData={this.state.gypsyJazzScene}
