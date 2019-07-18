@@ -2,6 +2,7 @@ import React from 'react';
 import Select from 'react-select'
 import ReactDOM from 'react-dom';
 import ForceGraph3D from 'react-force-graph-3d';
+// import styled from '@emotion/styled'
 import './index.css';
 
 
@@ -21,8 +22,10 @@ function NodeInfo(props) {
 		</div>)
 }
 
-
 function Search(props) {
+  const customStyles = {
+    control: styles => ({ ...styles, backgroundColor: 'white', 'width': 250}),
+  };
   return (<React.Fragment>
       <div className="box_search" id='search'> 
       <Select
@@ -31,6 +34,7 @@ function Search(props) {
         onChange={props.handleChange}
         placeholder= "Search..."
         openMenuOnClick={false}
+        styles={customStyles}
       />
       </div>
     </React.Fragment>)
@@ -118,7 +122,6 @@ class FilterGraph extends React.Component {
     this.setState({
       [name]: value
     })
-    // console.log(this.state.isActive)
   }
 
   render(){
@@ -206,14 +209,8 @@ class DjangoVerse extends React.Component {
 			gypsyJazzScene: {'nodes': [], 'links': []},
 			queryParams: '&player=on&band=on',
 			nodeInfo: null,
-      searchTerm: '',
-      filteredList: [],
-
       selectedOption: null,
 		}
-
-    this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
-    this.handleSearchChange = this.handleSearchChange.bind(this);
 	}
 
   async componentDidMount() {
@@ -229,7 +226,6 @@ class DjangoVerse extends React.Component {
     } catch (e) {
       console.log(e);
     }
-    // console.log(this.state.queryParams) 
   }
 
   reloadGraph(newQueryParams) {
@@ -256,48 +252,18 @@ class DjangoVerse extends React.Component {
     this.setState({'nodeInfo': null});
   }
 
-  handleSearchSubmit(event) {
-    if (this.state.filteredList.length > 0){
-      this._handleClick(this.state.filteredList[0])
-    }
-
-    this.setState({
-      'searchTerm': '',
-      'filteredList': []
-    })
-    event.preventDefault();
-  }
-
-  handleSearchChange(event) {
-    if (event.target.value !== '') {
-        let nodeList = this.state.gypsyJazzScene.nodes
-        let newList = nodeList.filter( x => {
-          const lcTitle = x.name.toLowerCase();
-          const lcSearch = event.target.value.toLowerCase();
-    
-          return lcTitle.includes(lcSearch)
-        })
-        console.log("new list: " + newList.map(x=>x.name))
-        this.setState({
-          'searchTerm': event.target.value,
-          filteredList: newList
-        })
-        console.log("in state: " + this.state.filteredList.map(x=>x.name))
-      }
-
-    else {
-          this.setState({
-            'searchTerm': '',
-            'filteredList': []
-          })}
-  }
 
   handleChangeSearch = selectedOption => {
     this.setState({selectedOption: selectedOption}, () => this._handleClick(selectedOption));
  }
 
   render() {
-    let searchList = this.state.gypsyJazzScene.nodes.map(obj => ({...obj, value: obj.name, label: obj.name}))
+    // add 'value' and 'label' to each node
+    let searchList = this.state.gypsyJazzScene.nodes.map(obj => {
+      obj['value'] = obj.name;
+      obj['label'] = obj.name;
+      return obj
+    })
         
     return (
       <React.Fragment>
@@ -305,8 +271,6 @@ class DjangoVerse extends React.Component {
         <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}/>
 
         <Search selectedOption={this.state.selectedOption} searchList={searchList} handleChange={this.handleChangeSearch} />
-
-        {console.log("selected option: " + this.state.selectedOption)}
 
         <ForceGraph3D
           ref={el => { this.fg = el; }}
