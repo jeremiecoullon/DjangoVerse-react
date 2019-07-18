@@ -5,12 +5,12 @@ import './index.css';
 
 
 function NodeInfo(props) {
+  // <img src={props.nodeInfo.node.image}></img>
 	return (
 		<div className='box_info' id='node_info'>
 			<a href={props.nodeInfo.node.external_URL} target="_blank">
   			<h5>{props.nodeInfo.node.name} ({props.nodeInfo.node.country})</h5>
 			</a>
-			<img src={props.nodeInfo.node.image}></img>
 			<div className="node_info_box">
   			<p>{props.nodeInfo.node.description}</p>
   			<br></br>
@@ -90,7 +90,7 @@ class FilterGraph extends React.Component {
     queryParams = queryParams + ((this.state.instrument !== 'all') ? ('&instrument=' + this.state.instrument) : "")
 
     queryParams = queryParams + ((this.state.isActive !== 'all') ? ('&active=' + this.state.isActive) : "")
-    // queryParams = 
+    
     this.props.reloadGraph(queryParams)
     event.preventDefault();
   }
@@ -183,12 +183,18 @@ class FilterGraph extends React.Component {
   }
 }
 
-class Search extends React.Component {
-  render(){
-    return (<React.Fragment>
-      
+
+function Search(props) {
+  return (<React.Fragment>
+      <div className="box_search" id='search'> 
+        <form onSubmit={props.handleSubmit}>
+          <label>
+            <input type='text' value={props.searchTerm} onChange={props.handleChange} placeholder='search..' />
+          </label>
+          <input type='submit' value='Submit' />
+        </form>
+      </div>
     </React.Fragment>)
-  }
 }
 
 class DjangoVerse extends React.Component {
@@ -198,7 +204,12 @@ class DjangoVerse extends React.Component {
 			gypsyJazzScene: {'nodes': [], 'links': []},
 			queryParams: '&player=on&band=on',
 			nodeInfo: null,
+      searchTerm: '',
+      filteredList: []
 		}
+
+    this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
 	}
 
   async componentDidMount() {
@@ -243,12 +254,50 @@ class DjangoVerse extends React.Component {
     this.setState({'nodeInfo': null});
   }
 
+  handleSearchSubmit(event) {
+    // console.log(this.state.filteredList)
+    if (this.state.filteredList.length > 0){
+      this._handleClick(this.state.filteredList[0])
+    }
+
+    this.setState({
+      'searchTerm': '',
+      'filteredList': []
+    })
+    event.preventDefault();
+  }
+
+  handleSearchChange(event) {
+    if (event.target.value !== '') {
+      let nodeList = this.state.gypsyJazzScene.nodes
+        let newList = nodeList.filter( x => {
+          const lcTitle = x.name.toLowerCase();
+          const lcSearch = event.target.value.toLowerCase();
+    
+          return lcTitle.includes(lcSearch)
+        })
+        this.setState({
+          'searchTerm': event.target.value,
+          filteredList: newList
+        })
+      }
+
+    else {
+          this.setState({
+            'searchTerm': '',
+            'filteredList': []
+          })}
+
+    // console.log(this.state.filteredList.map(x=>x.name))
+
+  }
+
   render() {
     return (
       <React.Fragment>
         {this.state.nodeInfo && <NodeInfo nodeInfo={this.state.nodeInfo} closeBoxFun={() => {this.handleCloseNodeInfo()}}/>}
         <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}/>
-        <Search/>
+        <Search handleSubmit={this.handleSearchSubmit} handleChange={this.handleSearchChange} searchTerm={this.state.searchTerm} />
         <ForceGraph3D
           ref={el => { this.fg = el; }}
           graphData={this.state.gypsyJazzScene}
