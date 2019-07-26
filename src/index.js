@@ -2,7 +2,6 @@ import React from 'react';
 import Select from 'react-select'
 import ReactDOM from 'react-dom';
 import ForceGraph3D from 'react-force-graph-3d';
-// import styled from '@emotion/styled'
 import './index.css';
 
 
@@ -49,9 +48,9 @@ class FilterGraph extends React.Component {
     this.state = {
       playerOn: true,
       bandOn: true,
-      venueOn: false,
-      festivalOn: false,
-      albumOn: false,
+      // venueOn: false,
+      festivalOn: true,
+      // albumOn: false,
 
       player_country: 'all',
       festival_country: 'all',
@@ -147,15 +146,6 @@ class FilterGraph extends React.Component {
         </div>
 
         <div>
-          <input type="checkbox" name="venueOn" checked={this.state.venueOn} onChange={this.handleInputChange} />Venues
-          <select name='venue_country' value={this.state.venue_country} onChange={this.handleInputChange} className="select_margin">
-          <option value="all">All countries</option>
-            {this.state.list_countries.venue.map( x => 
-              (<option value={x[0]}>{x[1]}</option>))}            
-          </select>
-        </div>
-
-        <div>
           <input type="checkbox" name="festivalOn" checked={this.state.festivalOn} onChange={this.handleInputChange} />Festivals
           <select name='festival_country' value={this.state.festival_country} onChange={this.handleInputChange} className="select_margin">
           <option value="all">All countries</option>
@@ -164,14 +154,6 @@ class FilterGraph extends React.Component {
           </select>
         </div>
 
-        <div>
-          <input type="checkbox" name="albumOn" checked={this.state.albumOn} onChange={this.handleInputChange} />Albums
-          <select name='album_country' value={this.state.album_country} onChange={this.handleInputChange} className="select_margin">
-          <option value="all">All countries</option>
-            {this.state.list_countries.album.map( x => 
-              (<option value={x[0]}>{x[1]}</option>))}            
-          </select>
-        </div>
 
         <div>
         </div>
@@ -207,7 +189,7 @@ class DjangoVerse extends React.Component {
 		super(props)
 		this.state = {
 			gypsyJazzScene: {'nodes': [], 'links': []},
-			queryParams: '&player=on&band=on',
+			queryParams: '&player=on&band=on&festival=on',
 			nodeInfo: null,
       selectedOption: null,
 		}
@@ -226,11 +208,32 @@ class DjangoVerse extends React.Component {
     } catch (e) {
       console.log(e);
     }
-  }
+
+    // manually set the link distance between nodes
+    this.fg.d3Force('link').distance(link => {
+      // console.log(link)
+      if ((link.target.type === 'festival') || (link.source.type === 'festival')){
+          // link distance for festivals depends on number of players and bands played
+          let count = link.target.playersplayed.length + link.target.bandsplayed.length
+          return 40 + count*2
+            // return 150
+          }
+      else
+        {return 40}
+    })
+
+    // console.log(this.fg.camera)
+    }
 
   reloadGraph(newQueryParams) {
     // Callback: only reload graph after updated params
     this.setState({queryParams: newQueryParams}, () => this.componentDidMount());
+    const zValue = Math.cbrt(this.state.gypsyJazzScene.nodes.length)*150;
+    this.fg.cameraPosition(
+      { x: 0, y: 0, z:  zValue}, // reposition the camera
+      { x: 0, y: 0, z: 0}, // look at the center
+      3000  // ms transition duration
+    );
   }
 
 
@@ -257,6 +260,24 @@ class DjangoVerse extends React.Component {
     this.setState({selectedOption: selectedOption}, () => this._handleClick(selectedOption));
  }
 
+ getNodeSize(node) {
+  let nodeSize;
+  switch (node.type) {
+    case 'player':
+      nodeSize = 1
+      break;
+    case 'band':
+      nodeSize = 20
+      break;
+    case 'festival':
+      nodeSize = 140
+      break;
+    default:
+      nodeSize = 5;
+  }
+  return nodeSize
+  }
+
   render() {
     // add 'value' and 'label' to each node
     let searchList = this.state.gypsyJazzScene.nodes.map(obj => {
@@ -275,9 +296,13 @@ class DjangoVerse extends React.Component {
         <ForceGraph3D
           ref={el => { this.fg = el; }}
           graphData={this.state.gypsyJazzScene}
-          nodeLabel="name"
-          nodeAutoColorBy="country"
+          nodeLabel="name"  
           onNodeClick={this._handleClick}
+          nodeVal={this.getNodeSize}
+          nodeAutoColorBy="country"
+          linkWidth={1}
+          // TODO: modify force so that nodes are further apart
+
         />
       </React.Fragment>
       );

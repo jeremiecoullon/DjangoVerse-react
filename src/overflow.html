@@ -1,81 +1,21 @@
-<!-- JSX for filter form -->
 
-      <form onSubmit={this.handleSubmit}>
-      
-      <div>
-      <input type="checkbox" name="player" checked />Players
-    <select className="select_margin">
-    <option value="volvo">All countries</option>
-      <option value="France">France</option>
-      <option value="saab">UK</option>
-      <option value="opel">Germany</option>
-      <option value="audi">Norway</option>
-      <option value="audi">Holland</option>
-    </select>
-    </div>
-      
-      <div>
-      <input type="checkbox" name="band" checked />Bands
-
-    <select className="select_margin">
-    <option value="volvo">All countries</option>
-      <option value="France">France</option>
-      <option value="saab">UK</option>
-      <option value="opel">Germany</option>
-      <option value="audi">Norway</option>
-      <option value="audi">Holland</option>
-    </select>
-    </div>
-
-      <div>
-      <input type="checkbox" name="venue" />Venues
-      <select className="select_margin">
-    <option value="volvo">All countries</option>
-      <option value="France">France</option>
-      <option value="saab">UK</option>
-      <option value="opel">Germany</option>
-      <option value="audi">Norway</option>
-      <option value="audi">Holland</option>
-    </select>
-    </div>
-
-    <div>
-      <input type="checkbox" name="festival" />Festivals
-      <select className="select_margin">
-    <option value="volvo">All countries</option>
-      <option value="France">France</option>
-      <option value="saab">UK</option>
-      <option value="opel">Germany</option>
-      <option value="audi">Norway</option>
-      <option value="audi">Holland</option>
-    </select>
-    </div>
+<div>
+  <input type="checkbox" name="albumOn" checked={this.state.albumOn} onChange={this.handleInputChange} />Albums
+  <select name='album_country' value={this.state.album_country} onChange={this.handleInputChange} className="select_margin">
+  <option value="all">All countries</option>
+    {this.state.list_countries.album.map( x => 
+      (<option value={x[0]}>{x[1]}</option>))}            
+  </select>
+</div>
 
 
-    <div>
-    <input type="checkbox" name="album" />Albums
 
-    <select className="select_margin">
-    <option value="All_years">All instruments</option>
-      <option value="Guitar">Guitar</option>
-      <option value="Violin">Violin</option>
-      <option value="Bass">Bass</option>
-      <option value="Clarinet">Clarinet</option>
-      <option value="Voice">Voice</option>
-      <option value="Egg_shaker">Egg shaker</option>
-    </select>
-    </div>
-
-    <div>
-    <select className="select_margin">
-    <option value="All_years">All years</option>
-      <option value="2019">2019</option>
-      <option value="saab">2018</option>
-      <option value="opel">2017</option>
-      <option value="audi">2016</option>
-      <option value="audi">2015</option>
-    </select>
-      <input type="submit" value="Reload" className="select_margin" />
-      </div>
-    </form>
-
+  
+<div>
+  <input type="checkbox" name="venueOn" checked={this.state.venueOn} onChange={this.handleInputChange} />Venues
+  <select name='venue_country' value={this.state.venue_country} onChange={this.handleInputChange} className="select_margin">
+  <option value="all">All countries</option>
+    {this.state.list_countries.venue.map( x => 
+      (<option value={x[0]}>{x[1]}</option>))}            
+  </select>
+</div>
