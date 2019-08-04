@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import './index.css';
 
 const APIdomain = 'https://pure-temple-86735.herokuapp.com/'
+// const APIdomain = 'http://localhost:5000/'
 
 
 function NodeInfo(props) {
@@ -237,8 +238,10 @@ class DjangoVerse extends React.Component {
       { x: 0, y: 0, z: 0}, // look at the center
       3000  // ms transition duration
     );
-    this.setState({'nodeInfo': null});
-    // console.log(this.fg.scene)
+    this.setState({
+      nodeInfo: null,
+      selectedOption: null,
+    });
 
   }
 
