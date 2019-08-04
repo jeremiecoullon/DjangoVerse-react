@@ -2,7 +2,11 @@ import React from 'react';
 import Select from 'react-select'
 import ReactDOM from 'react-dom';
 import ForceGraph3D from 'react-force-graph-3d';
+import * as THREE from 'three';
+// import SpriteText from 'three-spritetext';
 import './index.css';
+
+const APIdomain = 'https://pure-temple-86735.herokuapp.com/'
 
 
 function NodeInfo(props) {
@@ -31,7 +35,7 @@ function Search(props) {
         value={props.selectedOption}
         options={props.searchList}
         onChange={props.handleChange}
-        placeholder= "Search..."
+        placefholder= "Search..."
         openMenuOnClick={false}
         styles={customStyles}
       />
@@ -76,8 +80,8 @@ class FilterGraph extends React.Component {
   async componentDidMount() {
     // ASYNC VERSION
     try {
-      const res = await fetch('http://localhost:5000/api/countries/?format=json');
-      const res2 = await fetch('http://localhost:5000/api/all_instruments/?format=json');
+      const res = await fetch(APIdomain+'api/countries/?format=json');
+      const res2 = await fetch(APIdomain+'api/all_instruments/?format=json');
       
       const list_countries = await res.json();
       this.setState({
@@ -199,7 +203,7 @@ class DjangoVerse extends React.Component {
   	// ASYNC VERSION
     try {
       // const res = await fetch('http://localhost:5000/players/?format=json');
-      const res = await fetch('http://localhost:5000/api/D3endpoint/?format=json' + this.state.queryParams);
+      const res = await fetch(APIdomain+'api/D3endpoint/?format=json' + this.state.queryParams);
       
       const gypsyJazzScene = await res.json();
       this.setState({
@@ -221,8 +225,7 @@ class DjangoVerse extends React.Component {
       else
         {return 40}
     })
-
-    // console.log(this.fg.camera)
+    this.addLights()
     }
 
   reloadGraph(newQueryParams) {
@@ -234,14 +237,25 @@ class DjangoVerse extends React.Component {
       { x: 0, y: 0, z: 0}, // look at the center
       3000  // ms transition duration
     );
+    this.setState({'nodeInfo': null});
+    // console.log(this.fg.scene)
+
   }
+
+  
 
 
   _handleClick = node => {
     // update state to render NodeInfo
     this.setState({'nodeInfo': {node}})
     // Aim at node from outside it
-    const distance = 40;
+    let distance = 80
+    if (node.type === 'festival'){
+        distance = 200;
+      }
+    // else {
+    //   distance = 100
+    // }
     const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
 
     this.fg.cameraPosition(
@@ -250,6 +264,25 @@ class DjangoVerse extends React.Component {
       3000  // ms transition duration
     );
   };
+
+  // skybox(){
+    // NEED TO FIX CORS PROBLEM
+  //   var directions  = ["https://steemverse.com/img/skyboxes/Stars01/leftImage.png", "https://steemverse.com/img/skyboxes/Stars01/rightImage.png", "https://steemverse.com/img/skyboxes/Stars01/upImage.png", "https://steemverse.com/img/skyboxes/Stars01/downImage.png", "https://steemverse.com/img/skyboxes/Stars01/frontImage.png", "https://steemverse.com/img/skyboxes/Stars01/backImage.png"];
+  //   var reflectionCube = new THREE.CubeTextureLoader().load(directions, function(){
+  //     reflectionCube.format = THREE.RGBFormat;
+  //     this.fg.scene.background = reflectionCube;
+  //   });
+  // }
+  addLights() {
+    // this is better lighting than the default
+    var light = new THREE.PointLight(0xff0000, 50, 1)
+    var ambientLight = new THREE.AmbientLight(0xbbbbbb, 0.2)
+    var dirLight  = new THREE.DirectionalLight(0xffffff, 0.6)
+    light.position.set(50, 50, 50);
+    this.fg.scene().add(light);
+    this.fg.scene().add(ambientLight);
+    this.fg.scene().add(dirLight);
+  }
 
   handleCloseNodeInfo(){
     this.setState({'nodeInfo': null});
@@ -301,6 +334,12 @@ class DjangoVerse extends React.Component {
           nodeVal={this.getNodeSize}
           nodeAutoColorBy="country"
           linkWidth={1}
+          // nodeThreeObject={node => {
+            // const sprite = new SpriteText(node.name);
+            // sprite.color = node.color;
+            // sprite.textHeight = 8;
+            // return sprite;
+          // }}
           // TODO: modify force so that nodes are further apart
 
         />
