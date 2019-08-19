@@ -6,7 +6,7 @@ import * as THREE from 'three';
 // import SpriteText from 'three-spritetext';
 import './index.css';
 
-const APIdomain = 'https://pure-temple-86735.herokuapp.com/'
+const APIdomain = 'https://londondjangocollective.herokuapp.com/'
 // const APIdomain = 'http://localhost:5000/'
 
 
@@ -41,6 +41,17 @@ function Search(props) {
         styles={customStyles}
       />
       </div>
+    </React.Fragment>)
+}
+
+function NavBar(props) {
+  return (<React.Fragment>
+    <div className='navbar'>
+      <div>
+        <a className="navbar-LDC" href="https://pure-temple-86735.herokuapp.com/djangoverse">LDC</a>
+        <a className="navbar-what_is_this">What is this ?</a>
+      </div>
+    </div>
     </React.Fragment>)
 }
 
@@ -324,6 +335,7 @@ class DjangoVerse extends React.Component {
         
     return (
       <React.Fragment>
+        <NavBar/>
         {this.state.nodeInfo && <NodeInfo nodeInfo={this.state.nodeInfo} closeBoxFun={() => {this.handleCloseNodeInfo()}}/>}
         <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}/>
 

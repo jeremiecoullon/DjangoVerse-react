@@ -2,7 +2,9 @@ body {
   	margin: 0;
   } 
 
+/* filter box */
   .box_info {
+
   	margin: 8px;
   	padding: 1px 5px 5px 5px;
   	min-width: 140px;
@@ -10,6 +12,7 @@ body {
   	z-index: 1000;
   	opacity: 0.6;
   	border-radius: 3px;  	
+    top: 40px;
   }
 
   .box_search {
@@ -36,8 +39,8 @@ body {
   #search {
     text-align: left;
     position: absolute;
-    right: 0
-    
+    right: 0;
+    top: 40px;
   }
 
   #node_info {
@@ -46,14 +49,6 @@ body {
   	right: 0;
   	bottom: 0; 
   }
-  
-  .testnodeinfo{
-    text-align: left;
-    position: absolute;
-    right: 0;
-    bottom: 0; 
-  }
-
   .hide_box {
     display: none;
   }
@@ -65,16 +60,19 @@ body {
     margin-top:10px;
   }
 
-  .inputBandForm{
+  .navbar{
     position: absolute;
-    left: 30%;
-    z-index: 10000;
-     margin: 8px;
-    padding: 1px 5px 5px 5px;
-    min-width: 140px;
-    max-width: 400px;
+    top: 0;
+    width: 100%;
+    background-color: rgba(76, 77, 130, 0.39);
     z-index: 1000;
-    opacity: 0.8;
-    border-radius: 3px;   
+    color: white;
+  }
 
+  .navbar-what_is_this{
+    padding-left: 40px;
+  }
+
+  .navbar-LDC {
+    padding-left: 40px;
   }
