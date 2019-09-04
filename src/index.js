@@ -349,6 +349,8 @@ class DjangoVerse extends React.Component {
           nodeVal={this.getNodeSize}
           nodeAutoColorBy="country"
           linkWidth={1}
+          // Note: need to set enableNodeDrag to false so that onNodeClick works on mobile
+          enableNodeDrag={false}
           // nodeThreeObject={node => {
             // const sprite = new SpriteText(node.name);
             // sprite.color = node.color;
