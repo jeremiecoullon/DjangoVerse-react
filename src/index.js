@@ -3,12 +3,16 @@ import Select from 'react-select'
 import ReactDOM from 'react-dom';
 import ForceGraph3D from 'react-force-graph-3d';
 import * as THREE from 'three';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+
 // import SpriteText from 'three-spritetext';
 import './index.css';
+import './navbar.css';
+import './MyFontsWebfontsKit.css';
 
 const APIdomain = 'https://londondjangocollective.herokuapp.com/'
 // const APIdomain = 'http://localhost:5000/'
-
 
 function NodeInfo(props) {
   // <img src={props.nodeInfo.node.image}></img>
@@ -31,7 +35,7 @@ function Search(props) {
     control: styles => ({ ...styles, backgroundColor: 'white', 'width': 250}),
   };
   return (<React.Fragment>
-      <div className="box_search" id='search'> 
+      <div className="box_search"> 
       <Select
         value={props.selectedOption}
         options={props.searchList}
@@ -44,16 +48,22 @@ function Search(props) {
     </React.Fragment>)
 }
 
-function NavBar(props) {
-  return (<React.Fragment>
-    <div className='navbar'>
-      <div>
-        <a className="navbar-LDC" href="https://pure-temple-86735.herokuapp.com/djangoverse">LDC</a>
-        <a className="navbar-what_is_this">What is this ?</a>
-      </div>
-    </div>
-    </React.Fragment>)
-}
+ function NavBar(props) {
+return (<React.Fragment>
+    <Navbar className="lenavbar" expand="lg">
+      <a href="https://londondjangocollective.herokuapp.com/" class="navbar-brand navbar-LDC"><img src="https://lwr-inverse-mcmc.s3.amazonaws.com/static/music/images/logo_small.png" class="navbar-logo"></img></a>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="mr-auto">
+          <p class="navbar-links fa fa-question-circle"> Info</p>
+          <p class="navbar-links navbar-toggle_button fa fa-toggle-on"> Toggle filter</p>
+        </Nav>
+        <Search selectedOption={props.selectedOption} searchList={props.searchList} handleChange={props.handleChange}/>
+      </Navbar.Collapse>
+    </Navbar>
+  </React.Fragment>)
+ }
+
 
 class FilterGraph extends React.Component {
   constructor(props) {
@@ -208,10 +218,12 @@ class DjangoVerse extends React.Component {
 			queryParams: '&player=on&band=on&festival=on',
 			nodeInfo: null,
       selectedOption: null,
+      'toggleFilter': true,
+      'toggleInfo': false
 		}
 	}
 
-  async componentDidMount() {
+  async componentDidMount(addLights=true) {
   	// ASYNC VERSION
     try {
       // const res = await fetch('http://localhost:5000/players/?format=json');
@@ -237,17 +249,21 @@ class DjangoVerse extends React.Component {
       else
         {return 40}
     })
-    this.addLights()
+    // only add lights if loading data for the first time. 
+    // In `reloadGraph()` below: set addLights=false otherwise you keep adding more lights to the scene
+    if (addLights === true) {
+      this.addLights()  
+    }
     }
 
   reloadGraph(newQueryParams) {
     // Callback: only reload graph after updated params
-    this.setState({queryParams: newQueryParams}, () => this.componentDidMount());
+    this.setState({queryParams: newQueryParams}, () => this.componentDidMount(false));
     const zValue = Math.cbrt(this.state.gypsyJazzScene.nodes.length)*150;
     this.fg.cameraPosition(
       { x: 0, y: 0, z:  zValue}, // reposition the camera
       { x: 0, y: 0, z: 0}, // look at the center
-      3000  // ms transition duration
+      2500  // ms transition duration
     );
     this.setState({
       nodeInfo: null,
@@ -275,7 +291,7 @@ class DjangoVerse extends React.Component {
     this.fg.cameraPosition(
       { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
       node, // lookAt ({ x, y, z })
-      3000  // ms transition duration
+      2500  // ms transition duration
     );
   };
 
@@ -290,7 +306,7 @@ class DjangoVerse extends React.Component {
   addLights() {
     // this is better lighting than the default
     var light = new THREE.PointLight(0xff0000, 50, 1)
-    var ambientLight = new THREE.AmbientLight(0xbbbbbb, 0.2)
+    var ambientLight = new THREE.AmbientLight(0xbbbbbb, 0.15)
     var dirLight  = new THREE.DirectionalLight(0xffffff, 0.6)
     light.position.set(50, 50, 50);
     this.fg.scene().add(light);
@@ -332,14 +348,15 @@ class DjangoVerse extends React.Component {
       obj['label'] = obj.name;
       return obj
     })
-        
+// <Search selectedOption={this.state.selectedOption} searchList={searchList} handleChange={this.handleChangeSearch} />
     return (
+
       <React.Fragment>
-        <NavBar/>
+        <NavBar selectedOption={this.state.selectedOption} searchList={searchList} handleChange={this.handleChangeSearch} />
         {this.state.nodeInfo && <NodeInfo nodeInfo={this.state.nodeInfo} closeBoxFun={() => {this.handleCloseNodeInfo()}}/>}
         <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}/>
 
-        <Search selectedOption={this.state.selectedOption} searchList={searchList} handleChange={this.handleChangeSearch} />
+        
 
         <ForceGraph3D
           ref={el => { this.fg = el; }}
@@ -351,6 +368,8 @@ class DjangoVerse extends React.Component {
           linkWidth={1}
           // Note: need to set enableNodeDrag to false so that onNodeClick works on mobile
           enableNodeDrag={false}
+          nodeOpacity={1}
+          backgroundColor={"black"}
           // nodeThreeObject={node => {
             // const sprite = new SpriteText(node.name);
             // sprite.color = node.color;

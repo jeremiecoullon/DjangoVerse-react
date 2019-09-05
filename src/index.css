@@ -12,7 +12,13 @@ body {
   	z-index: 1000;
   	opacity: 0.6;
   	border-radius: 3px;  	
-    top: 40px;
+    top: 90px;
+  }
+  @media(max-width: 991px) {
+    .box_info {
+      bottom: 10px;
+      top: auto;
+    }
   }
 
   .box_search {
@@ -36,12 +42,12 @@ body {
   	
   }
 
-  #search {
+  /*#search {
     text-align: left;
     position: absolute;
     right: 0;
     top: 40px;
-  }
+  }*/
 
   #node_info {
   	text-align: left;
@@ -66,7 +72,6 @@ body {
     width: 100%;
     background-color: rgba(76, 77, 130, 0.39);
     z-index: 1000;
-    color: white;
   }
 
   .navbar-what_is_this{
