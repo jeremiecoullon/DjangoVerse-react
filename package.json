@@ -10,6 +10,7 @@
     "react-force-graph-3d": "^1.8.3",
     "react-scripts": "3.0.1",
     "react-select": "^3.0.4",
+    "react-switch": "^5.0.1",
     "three-spritetext": "^1.0.6"
   },
   "scripts": {

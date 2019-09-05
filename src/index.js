@@ -5,6 +5,7 @@ import ForceGraph3D from 'react-force-graph-3d';
 import * as THREE from 'three';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import Switch from 'react-switch';
 
 // import SpriteText from 'three-spritetext';
 import './index.css';
@@ -48,20 +49,27 @@ function Search(props) {
     </React.Fragment>)
 }
 
- function NavBar(props) {
-return (<React.Fragment>
-    <Navbar className="lenavbar" expand="lg">
-      <a href="https://londondjangocollective.herokuapp.com/" class="navbar-brand navbar-LDC"><img src="https://lwr-inverse-mcmc.s3.amazonaws.com/static/music/images/logo_small.png" class="navbar-logo"></img></a>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <p class="navbar-links fa fa-question-circle"> Info</p>
-          <p class="navbar-links navbar-toggle_button fa fa-toggle-on"> Toggle filter</p>
-        </Nav>
-        <Search selectedOption={props.selectedOption} searchList={props.searchList} handleChange={props.handleChange}/>
-      </Navbar.Collapse>
-    </Navbar>
-  </React.Fragment>)
+function DVInfo(props) {
+  return (<React.Fragment>
+      hello
+    </React.Fragment>)
+}
+
+function NavBar(props) {
+  return (<React.Fragment>
+      <Navbar className="lenavbar" expand="lg">
+        <a href="https://londondjangocollective.herokuapp.com/" class="navbar-brand navbar-LDC" id="LDC-in-navbar">London Django Collective</a>
+
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <p className="navbar-links fa fa-question-circle DVInfoButton"> Info</p>
+            <p className="navbar-links fa"><span className="toggleFilterSpan">Toggle Filter:</span> <Switch className="navbar-switch-button" onChange={props.handleToggleFilter} checked={props.toggleFilter} /></p>
+          </Nav>
+          <Search selectedOption={props.selectedOption} searchList={props.searchList} handleChange={props.handleChange}/>
+        </Navbar.Collapse>
+      </Navbar>
+    </React.Fragment>)
  }
 
 
@@ -219,8 +227,9 @@ class DjangoVerse extends React.Component {
 			nodeInfo: null,
       selectedOption: null,
       'toggleFilter': true,
-      'toggleInfo': false
+      'toggleDVInfo': false
 		}
+    this.handleToggleFilter = this.handleToggleFilter.bind(this);
 	}
 
   async componentDidMount(addLights=true) {
@@ -319,27 +328,33 @@ class DjangoVerse extends React.Component {
   }
 
 
+  handleToggleFilter() {
+    const currentToggleValue = this.state.toggleFilter
+    this.setState({'toggleFilter': !currentToggleValue})
+  }
+
   handleChangeSearch = selectedOption => {
     this.setState({selectedOption: selectedOption}, () => this._handleClick(selectedOption));
  }
 
  getNodeSize(node) {
-  let nodeSize;
-  switch (node.type) {
-    case 'player':
-      nodeSize = 1
-      break;
-    case 'band':
-      nodeSize = 20
-      break;
-    case 'festival':
-      nodeSize = 140
-      break;
-    default:
-      nodeSize = 5;
+    let nodeSize;
+    switch (node.type) {
+      case 'player':
+        nodeSize = 1
+        break;
+      case 'band':
+        nodeSize = 20
+        break;
+      case 'festival':
+        nodeSize = 140
+        break;
+      default:
+        nodeSize = 5;
+    }
+    return nodeSize
   }
-  return nodeSize
-  }
+
 
   render() {
     // add 'value' and 'label' to each node
@@ -352,10 +367,17 @@ class DjangoVerse extends React.Component {
     return (
 
       <React.Fragment>
-        <NavBar selectedOption={this.state.selectedOption} searchList={searchList} handleChange={this.handleChangeSearch} />
-        {this.state.nodeInfo && <NodeInfo nodeInfo={this.state.nodeInfo} closeBoxFun={() => {this.handleCloseNodeInfo()}}/>}
-        <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}/>
+        <NavBar 
+        selectedOption={this.state.selectedOption} 
+        searchList={searchList} 
+        handleChange={this.handleChangeSearch}
+        handleToggleFilter={() => this.handleToggleFilter()}
+        toggleFilter={this.state.toggleFilter}
+        />
 
+        {this.state.nodeInfo && <NodeInfo nodeInfo={this.state.nodeInfo} closeBoxFun={() => {this.handleCloseNodeInfo()}}/>}
+        
+        {this.state.toggleFilter && <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}/>}
         
 
         <ForceGraph3D
