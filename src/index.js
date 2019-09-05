@@ -72,7 +72,7 @@ function DVInfo(props) {
 function NavBar(props) {
   return (<React.Fragment>
       <Navbar className="lenavbar" expand="lg">
-        <a href="https://londondjangocollective.herokuapp.com/djangoverse" class="navbar-brand navbar-LDC" id="LDC-in-navbar">DjangoVerse</a>
+        <a href="https://londondjangocollective.herokuapp.com/djangoverse" target="_parent" class="navbar-brand navbar-LDC" id="LDC-in-navbar">DjangoVerse</a>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -410,7 +410,7 @@ class DjangoVerse extends React.Component {
           onNodeClick={this._handleClick}
           nodeVal={this.getNodeSize}
           nodeAutoColorBy="country"
-          linkWidth={1}
+          linkWidth={0.7}
           // Note: need to set enableNodeDrag to false so that onNodeClick works on mobile
           enableNodeDrag={false}
           nodeOpacity={1}
