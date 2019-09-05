@@ -96,6 +96,12 @@ a:hover{
     }
 }
 
+  @media(max-width: 991px) {
+    .toggleFilterSpan {
+      padding-left: 0px;
+    }
+  }
+
 @media(min-width: 945px) {
     .navbar-LDC {
         padding-left: 14%;

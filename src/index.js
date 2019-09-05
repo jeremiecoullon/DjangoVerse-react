@@ -72,7 +72,7 @@ function DVInfo(props) {
 function NavBar(props) {
   return (<React.Fragment>
       <Navbar className="lenavbar" expand="lg">
-        <a href="https://londondjangocollective.herokuapp.com/" class="navbar-brand navbar-LDC" id="LDC-in-navbar">London Django Collective</a>
+        <a href="https://londondjangocollective.herokuapp.com/djangoverse" class="navbar-brand navbar-LDC" id="LDC-in-navbar">DjangoVerse</a>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -174,6 +174,8 @@ class FilterGraph extends React.Component {
   render(){
     return (<React.Fragment>
       <div id="controls" className="box_info">
+
+      <h3>Filter DjangoVerse</h3>
       <form onSubmit={this.handleSubmit}>
         <div>
           <input type="checkbox" name="playerOn" checked={this.state.playerOn} onChange={this.handleInputChange} />Players
