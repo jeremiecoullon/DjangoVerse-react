@@ -81,3 +81,32 @@ body {
   .navbar-LDC {
     padding-left: 40px;
   }
+
+  .DVInfoWrapper{
+    /*font-family: Unpack-Fast;*/
+    border-radius: 3px;
+    background-color: rgb(13, 27, 50);
+    flex-direction: column;
+    width: 40%;
+    position: absolute;
+    top: 10%;
+    left: 30%;
+    color: #fff;
+    z-index: 1000;
+    padding: 15px 25px;
+    border: 1px solid #444;
+  }
+  .DVInfoHeader > h2 {
+    color: #fff;
+    padding: 10px 0px;
+    text-transform: none;
+    font-size: 20px;
+    text-align: left;
+  }
+  
+  .DVInfoHr {
+    height: 0;
+    margin: 0.5rem 0;
+    overflow: hidden;
+    border-top: 1px solid #444;
+  }

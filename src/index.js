@@ -51,7 +51,21 @@ function Search(props) {
 
 function DVInfo(props) {
   return (<React.Fragment>
-      hello
+      <div className="DVInfoWrapper">
+        
+        <div className="DVInfoHeader">
+          <h2>How does this work?</h2>
+        </div>
+          <div className="DVInfoHr"></div>
+        <div className="DVInfoBody">
+          <p>The DjangoVerse is essentially Wikipedia for Gypsy Jazz. You can find players, bands, and festivals in this interactive 3D graph. You can also data to this yourself! </p>
+          <p>more info!</p>
+        </div>
+
+        <div className="DVInfoFooter">
+          Close button
+        </div>
+      </div>
     </React.Fragment>)
 }
 
@@ -63,7 +77,7 @@ function NavBar(props) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <p className="navbar-links fa fa-question-circle DVInfoButton"> Info</p>
+            <p className="navbar-links fa fa-question-circle DVInfoButton" onClick={props.handleToggleDVInfo}> Info</p>
             <p className="navbar-links fa"><span className="toggleFilterSpan">Toggle Filter:</span> <Switch className="navbar-switch-button" onChange={props.handleToggleFilter} checked={props.toggleFilter} /></p>
           </Nav>
           <Search selectedOption={props.selectedOption} searchList={props.searchList} handleChange={props.handleChange}/>
@@ -327,10 +341,14 @@ class DjangoVerse extends React.Component {
     this.setState({'nodeInfo': null});
   }
 
-
   handleToggleFilter() {
-    const currentToggleValue = this.state.toggleFilter
+    const currentToggleValue = this.state.toggleFilter;
     this.setState({'toggleFilter': !currentToggleValue})
+  }
+
+  handleToggleDVInfo() {
+    const currentDVInfo = this.state.toggleDVInfo;
+    this.setState({'toggleDVInfo': !currentDVInfo})
   }
 
   handleChangeSearch = selectedOption => {
@@ -373,11 +391,14 @@ class DjangoVerse extends React.Component {
         handleChange={this.handleChangeSearch}
         handleToggleFilter={() => this.handleToggleFilter()}
         toggleFilter={this.state.toggleFilter}
+        handleToggleDVInfo={() => this.handleToggleDVInfo()}
         />
 
         {this.state.nodeInfo && <NodeInfo nodeInfo={this.state.nodeInfo} closeBoxFun={() => {this.handleCloseNodeInfo()}}/>}
         
         {this.state.toggleFilter && <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}/>}
+
+        {this.state.toggleDVInfo && <DVInfo/>}
         
 
         <ForceGraph3D
