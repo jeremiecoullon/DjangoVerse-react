@@ -1,7 +1,6 @@
 body { 
   	margin: 0;
   } 
-
 /* filter box */
   .box_info {
 
@@ -120,4 +119,21 @@ body {
     margin: 0.5rem 0;
     overflow: hidden;
     border-top: 1px solid #444;
+  }
+
+.DVInfoCloseX{
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  color: #fff;
+  opacity: 0.9;
+}
+  .node_info_image{
+    width: 250px;
+    height: 200px;
+    /*position: absolute;
+    clip: rect(0px,100px,200px,0px);*/
+  }
+  .node_info_node_name{
+    color: #fff;
   }

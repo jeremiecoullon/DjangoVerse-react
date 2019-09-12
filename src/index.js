@@ -7,7 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Switch from 'react-switch';
 
-// import SpriteText from 'three-spritetext';
+import SpriteText from 'three-spritetext';
 import './index.css';
 import './navbar.css';
 import './MyFontsWebfontsKit.css';
@@ -16,16 +16,23 @@ const APIdomain = 'https://londondjangocollective.herokuapp.com/'
 // const APIdomain = 'http://localhost:5000/'
 
 function NodeInfo(props) {
-  // <img src={props.nodeInfo.node.image}></img>
+  
 	return (
 		<div className='box_info' id='node_info'>
-			<a href={props.nodeInfo.node.external_URL} target="_blank">
-  			<h5>{props.nodeInfo.node.name} ({props.nodeInfo.node.country})</h5>
-			</a>
+
+    {props.nodeInfo.node.external_URL? (<a href={props.nodeInfo.node.external_URL} target="_blank">
+        <h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.nodeInfo.node.country})</h5>
+      </a>) : (<h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.nodeInfo.node.country})</h5>)}
+      
+        
+
 			<div className="node_info_box">
+      {props.nodeInfo.node.thumbnail && <img src={props.nodeInfo.node.thumbnail} className="node_info_image"></img>}
+      <br></br>
   			<p>{props.nodeInfo.node.description}</p>
-  			<br></br>
-  			<p>Country: {props.nodeInfo.node.country}</p>
+  			
+
+  			
   			<p onClick={props.closeBoxFun}>Close</p>
 			</div>
 		</div>)
@@ -55,10 +62,14 @@ function DVInfo(props) {
         
         <div className="DVInfoHeader">
           <h2>How does this work?</h2>
+          <button type="button" class="close DVInfoCloseX" aria-label="Close" onClick={props.handleToggleDVInfo}>
+          <span aria-hidden="true">&times;</span>
+        </button>
+
         </div>
           <div className="DVInfoHr"></div>
         <div className="DVInfoBody">
-          <p>The DjangoVerse is essentially Wikipedia for Gypsy Jazz. You can find players, bands, and festivals in this interactive 3D graph. You can also data to this yourself! </p>
+          <p>The DjangoVerse is essentially Wikipedia for Gypsy Jazz. You can find players and who they gigged with in this interactive 3D graph. You can also data to this yourself! </p>
           <p>more info!</p>
         </div>
 
@@ -95,23 +106,9 @@ class FilterGraph extends React.Component {
 
     this.state = {
       playerOn: true,
-      bandOn: true,
-      // venueOn: false,
-      festivalOn: true,
-      // albumOn: false,
-
       player_country: 'all',
-      festival_country: 'all',
-      band_country: 'all',
-      venue_country: 'all',
-      album_country: 'all',
-
       list_countries: {
-        'band': ['FR',], 
-        'player': ['FR',], 
-        'festival': ['FR',], 
-        'venue': ['FR',], 
-        'album': ['FR',]},
+        'player': ['FR',]},
 
       instrument: 'all',
       list_instruments: [],
@@ -142,19 +139,8 @@ class FilterGraph extends React.Component {
   
   handleSubmit(event) {
     let queryParams = this.state.playerOn ? '&player=on' : ""
-    queryParams = queryParams +  (this.state.bandOn ? '&band=on' : "")
-    queryParams = queryParams +  (this.state.venueOn ? '&venue=on' : "")
-    queryParams = queryParams +  (this.state.festivalOn ? '&festival=on' : "")
-    queryParams = queryParams +  (this.state.albumOn ? '&album=on' : "")
-
     queryParams = queryParams + ((this.state.player_country !== 'all') ? ('&player_country=' + this.state.player_country) : "")
-    queryParams = queryParams + ((this.state.band_country !== 'all') ? ('&band_country=' + this.state.band_country) : "")
-    queryParams = queryParams + ((this.state.festival_country !== 'all') ? ('&festival_country=' + this.state.festival_country) : "")
-    queryParams = queryParams + ((this.state.album_country !== 'all') ? ('&album_country=' + this.state.album_country) : "")
-    queryParams = queryParams + ((this.state.venue_country !== 'all') ? ('&venue_country=' + this.state.venue_country) : "")
-
     queryParams = queryParams + ((this.state.instrument !== 'all') ? ('&instrument=' + this.state.instrument) : "")
-
     queryParams = queryParams + ((this.state.isActive !== 'all') ? ('&active=' + this.state.isActive) : "")
 
     this.props.reloadGraph(queryParams)
@@ -177,8 +163,7 @@ class FilterGraph extends React.Component {
 
       <h3>Filter DjangoVerse</h3>
       <form onSubmit={this.handleSubmit}>
-        <div>
-          <input type="checkbox" name="playerOn" checked={this.state.playerOn} onChange={this.handleInputChange} />Players
+        <div>  
           <select name='player_country' value={this.state.player_country} onChange={this.handleInputChange} className="select_margin">
           <option value="all">All countries</option>
             {this.state.list_countries.player.map( x => 
@@ -186,27 +171,6 @@ class FilterGraph extends React.Component {
           </select>
         </div>
 
-        <div>
-          <input type="checkbox" name="bandOn" checked={this.state.bandOn} onChange={this.handleInputChange} />Bands
-          <select name='band_country' value={this.state.band_country} onChange={this.handleInputChange} className="select_margin">
-          <option value="all">All countries</option>
-            {this.state.list_countries.band.map( x => 
-              (<option value={x[0]}>{x[1]}</option>))}            
-          </select>
-        </div>
-
-        <div>
-          <input type="checkbox" name="festivalOn" checked={this.state.festivalOn} onChange={this.handleInputChange} />Festivals
-          <select name='festival_country' value={this.state.festival_country} onChange={this.handleInputChange} className="select_margin">
-          <option value="all">All countries</option>
-            {this.state.list_countries.festival.map( x => 
-              (<option value={x[0]}>{x[1]}</option>))}            
-          </select>
-        </div>
-
-
-        <div>
-        </div>
         <select name='instrument' value={this.state.instrument} onChange={this.handleInputChange} className="select_margin">
           <option value="all">All instruments</option>
           {this.state.list_instruments.map(x => 
@@ -239,10 +203,10 @@ class DjangoVerse extends React.Component {
 		super(props)
 		this.state = {
 			gypsyJazzScene: {'nodes': [], 'links': []},
-			queryParams: '&player=on&band=on&festival=on',
+			queryParams: '&player=on',
 			nodeInfo: null,
       selectedOption: null,
-      'toggleFilter': true,
+      'toggleFilter': false,
       'toggleDVInfo': false
 		}
     this.handleToggleFilter = this.handleToggleFilter.bind(this);
@@ -272,7 +236,11 @@ class DjangoVerse extends React.Component {
             // return 150
           }
       else
-        {return 40}
+        {
+          let count = link.target.gigged_with.length + link.source.gigged_with.length;
+          // console.log(100+3*count)
+          return 100 + 3*count
+        }
     })
     // only add lights if loading data for the first time. 
     // In `reloadGraph()` below: set addLights=false otherwise you keep adding more lights to the scene
@@ -375,6 +343,10 @@ class DjangoVerse extends React.Component {
     return nodeSize
   }
 
+  lalaFun(node){
+    return node.name
+  }
+
 
   render() {
     // add 'value' and 'label' to each node
@@ -400,7 +372,7 @@ class DjangoVerse extends React.Component {
         
         {this.state.toggleFilter && <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}/>}
 
-        {this.state.toggleDVInfo && <DVInfo/>}
+        {this.state.toggleDVInfo && <DVInfo handleToggleDVInfo={() => this.handleToggleDVInfo()}/>}
         
 
         <ForceGraph3D
@@ -415,12 +387,22 @@ class DjangoVerse extends React.Component {
           enableNodeDrag={false}
           nodeOpacity={1}
           backgroundColor={"black"}
-          // nodeThreeObject={node => {
-            // const sprite = new SpriteText(node.name);
-            // sprite.color = node.color;
-            // sprite.textHeight = 8;
-            // return sprite;
-          // }}
+          
+          nodeThreeObject={node => {
+            const sprite = new SpriteText(node.name);
+            sprite.color = node.color;
+            sprite.textHeight = 8;
+            return sprite;
+          }}
+
+          // nodeThreeObject={({ id }) => new THREE.Mesh(
+          //   new THREE.SphereGeometry(4),
+          //   new THREE.MeshLambertMaterial({
+          //     color: 'blue',
+          //     transparent: true,
+          //     opacity: 0.9
+          //   })
+          // )}
           // TODO: modify force so that nodes are further apart
 
         />
