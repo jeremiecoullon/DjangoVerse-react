@@ -102,7 +102,7 @@ class FilterGraph extends React.Component {
 
     this.state = {
       playerOn: true,
-      player_country: 'all',
+      player_country: [],
       list_countries: {
         'player': ['FR',]},
 
@@ -172,6 +172,10 @@ class FilterGraph extends React.Component {
 
  handleisActiveChange = selectedOption => {
   console.log("isActive: ", selectedOption)
+
+  this.setState({
+    isActive: selectedOption['value']
+  })
  }
 
   render(){
@@ -202,7 +206,7 @@ class FilterGraph extends React.Component {
     const animatedComponents = makeAnimated();
     const countryOptions = this.state.list_countries.player.map( x => ({value: x[0], label: x[1]}))
     const instrumentOptions = this.state.list_instruments.map(x => ({value: x, label: x}))
-    const activeOtions = [{value: 'All', label: 'All'}, {value: 'True', label: 'Active'}, {value: 'False', label: 'Inactive'}]
+    const activeOtions = [{value: 'all', label: 'All'}, {value: 'True', label: 'Active'}, {value: 'False', label: 'Inactive'}]
 
     return (<React.Fragment>
       <div id="controls" className="box_info">
