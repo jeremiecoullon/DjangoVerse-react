@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Switch from 'react-switch';
+import makeAnimated from 'react-select/animated';
 
 import SpriteText from 'three-spritetext';
 import './index.css';
@@ -16,23 +17,17 @@ const APIdomain = 'https://londondjangocollective.herokuapp.com/'
 // const APIdomain = 'http://localhost:5000/'
 
 function NodeInfo(props) {
-  
 	return (
 		<div className='box_info' id='node_info'>
 
     {props.nodeInfo.node.external_URL? (<a href={props.nodeInfo.node.external_URL} target="_blank">
         <h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.nodeInfo.node.country})</h5>
       </a>) : (<h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.nodeInfo.node.country})</h5>)}
-      
-        
-
+      <i>Gigged with {props.nodeInfo.node.gigged_with.length} players</i>
 			<div className="node_info_box">
       {props.nodeInfo.node.thumbnail && <img src={props.nodeInfo.node.thumbnail} className="node_info_image"></img>}
       <br></br>
   			<p>{props.nodeInfo.node.description}</p>
-  			
-
-  			
   			<p onClick={props.closeBoxFun}>Close</p>
 			</div>
 		</div>)
@@ -42,13 +37,14 @@ function Search(props) {
   const customStyles = {
     control: styles => ({ ...styles, backgroundColor: 'white', 'width': 250}),
   };
+  // console.log(props.searchList)
   return (<React.Fragment>
       <div className="box_search"> 
       <Select
         value={props.selectedOption}
         options={props.searchList}
         onChange={props.handleChange}
-        placefholder= "Search..."
+        placeholder= "Search player..."
         openMenuOnClick={false}
         styles={customStyles}
       />
@@ -139,7 +135,12 @@ class FilterGraph extends React.Component {
   
   handleSubmit(event) {
     let queryParams = this.state.playerOn ? '&player=on' : ""
-    queryParams = queryParams + ((this.state.player_country !== 'all') ? ('&player_country=' + this.state.player_country) : "")
+
+    // Player countries: if state is empty array: return empty string (so keep all countries)
+    // else: concatenate list of country codes
+    const playerCountryQuery = (this.state.player_country === []) ? "" : this.state.player_country.map(x => "&player_country=" + x).join("")
+    queryParams = queryParams + playerCountryQuery
+    // queryParams = queryParams + ((this.state.player_country !== 'all') ? ('&player_country=' + this.state.player_country) : "")
     queryParams = queryParams + ((this.state.instrument !== 'all') ? ('&instrument=' + this.state.instrument) : "")
     queryParams = queryParams + ((this.state.isActive !== 'all') ? ('&active=' + this.state.isActive) : "")
 
@@ -157,35 +158,94 @@ class FilterGraph extends React.Component {
     })
   }
 
+  handleCountryChange = selectedOption => {
+    // set State to either empty array or list of country codes
+    const countryArray = (selectedOption === null)? [] : selectedOption.map(x => x['value']);
+    this.setState({
+      player_country: countryArray
+    })
+   }
+
+  handleInstrumentChange = selectedOption => {
+  console.log("instrument: ", selectedOption)
+ }
+
+ handleisActiveChange = selectedOption => {
+  console.log("isActive: ", selectedOption)
+ }
+
   render(){
+
+    // old player country filter
+    // <select name='player_country' value={this.state.player_country} onChange={this.handleInputChange} className="select_margin">
+    // <option value="all">All countries</option>
+      // {this.state.list_countries.player.map( x => 
+        // (<option value={x[0]}>{x[1]}</option>))}            
+    // </select>
+
+    // old instrument filter
+    // <select name='instrument' value={this.state.instrument} onChange={this.handleInputChange} className="select_margin">
+        // <option value="all">All instruments</option>
+        // {this.state.list_instruments.map(x => 
+          // (<option value={x}>{x}</option>))}
+      // </select>
+
+    // old isActive filter
+    // <select name='isActive' value={this.state.isActive} onChange={this.handleInputChange} className="select_margin">
+    // <option value='all'>All</option>
+    // <option value='True'>Active</option>
+    // <option value='False'>Inactive</option>
+    // </select>
+
+    // ===============
+
+    const animatedComponents = makeAnimated();
+    const countryOptions = this.state.list_countries.player.map( x => ({value: x[0], label: x[1]}))
+    const instrumentOptions = this.state.list_instruments.map(x => ({value: x, label: x}))
+    const activeOtions = [{value: 'All', label: 'All'}, {value: 'True', label: 'Active'}, {value: 'False', label: 'Inactive'}]
+
     return (<React.Fragment>
       <div id="controls" className="box_info">
 
       <h3>Filter DjangoVerse</h3>
+      <i>Leave empty to select all</i>
       <form onSubmit={this.handleSubmit}>
-        <div>  
-          <select name='player_country' value={this.state.player_country} onChange={this.handleInputChange} className="select_margin">
-          <option value="all">All countries</option>
-            {this.state.list_countries.player.map( x => 
-              (<option value={x[0]}>{x[1]}</option>))}            
-          </select>
-        </div>
 
-        <select name='instrument' value={this.state.instrument} onChange={this.handleInputChange} className="select_margin">
-          <option value="all">All instruments</option>
-          {this.state.list_instruments.map(x => 
-            (<option value={x}>{x}</option>))}
-          </select>
+          <Select
+            // defaultValue={[countryOptions[2], countryOptions[3]]}
+            isMulti
+            components={animatedComponents}
+            name="player_country"
+            options={countryOptions}
+            className="select_margin"
+            classNamePrefix="select"
+            onChange={this.handleCountryChange}
+            placeholder="Countries.."
+          />
 
-        <div>
-        <label>
-        Is Active:
-          <select name='isActive' value={this.state.isActive} onChange={this.handleInputChange} className="select_margin">
-            <option value='all'>All</option>
-            <option value='True'>Active</option>
-            <option value='False'>Inactive</option>
-          </select>
-        </label>
+        <Select
+            // defaultValue={[instrumentOptions[2], instrumentOptions[3]]}
+            isMulti
+            components={animatedComponents}
+            name="instrument"
+            options={instrumentOptions}
+            className="select_margin"
+            classNamePrefix="select"
+            onChange={this.handleInstrumentChange}
+            placeholder="Instruments.."
+          />
+
+        <div>        
+            <Select
+            // defaultValue={[instrumentOptions[2], instrumentOptions[3]]}
+            components={animatedComponents}
+            name="isactive"
+            options={activeOtions}
+            className="select_margin"
+            classNamePrefix="select"
+            onChange={this.handleisActiveChange}
+            placeholder="Is active..."
+          />
         </div>
 
         <div>
@@ -238,8 +298,11 @@ class DjangoVerse extends React.Component {
       else
         {
           let count = link.target.gigged_with.length + link.source.gigged_with.length;
-          // console.log(100+3*count)
-          return 100 + 3*count
+          // it seems that if a node has many connections and if the links are long, then that nodes will end up on the edge
+          // of the graph. It would be better to have them in the centre. So maybe define `link_dist` to that 'many connections' ==> 'shorter links'
+          // const link_dist = 50 + 1000 * (1/count)
+          const link_dist = 150 + 2*count
+          return link_dist
         }
     })
     // only add lights if loading data for the first time. 
