@@ -25,7 +25,7 @@ body {
   }
   @media(max-width: 991px) {
     .box_info {
-      bottom: 160px;
+      bottom: 10px;
       top: auto;
     }
   }

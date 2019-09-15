@@ -17,13 +17,15 @@ const APIdomain = 'https://londondjangocollective.herokuapp.com/'
 // const APIdomain = 'http://localhost:5000/'
 
 function NodeInfo(props) {
+  // number of players rendered in the graph that the selected player has gigged with
+  const giggedWithLength = props.nodeInfo.node.gigged_with.filter(x => props.arrayNodeIDs.includes(x)).length
 	return (
 		<div className='box_info' id='node_info'>
 
     {props.nodeInfo.node.external_URL? (<a href={props.nodeInfo.node.external_URL} target="_blank">
         <h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.nodeInfo.node.country})</h5>
       </a>) : (<h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.nodeInfo.node.country})</h5>)}
-      <i>Gigged with {props.nodeInfo.node.gigged_with.length} players</i>
+      <i>Gigged with {giggedWithLength} players</i>
 			<div className="node_info_box">
       {props.nodeInfo.node.thumbnail && <img src={props.nodeInfo.node.thumbnail} className="node_info_image"></img>}
       <br></br>
@@ -37,7 +39,6 @@ function Search(props) {
   const customStyles = {
     control: styles => ({ ...styles, backgroundColor: 'white', 'width': 250}),
   };
-  // console.log(props.searchList)
   return (<React.Fragment>
       <div className="box_search"> 
       <Select
@@ -58,7 +59,7 @@ function DVInfo(props) {
         
         <div className="DVInfoHeader">
           <h2>How does this work?</h2>
-          <button type="button" class="close DVInfoCloseX" aria-label="Close" onClick={props.handleToggleDVInfo}>
+          <button type="button" className="close DVInfoCloseX" aria-label="Close" onClick={props.handleToggleDVInfo}>
           <span aria-hidden="true">&times;</span>
         </button>
 
@@ -106,7 +107,7 @@ class FilterGraph extends React.Component {
       list_countries: {
         'player': ['FR',]},
 
-      instrument: 'all',
+      instrument: [],
       list_instruments: [],
 
       isActive: 'all',
@@ -140,8 +141,12 @@ class FilterGraph extends React.Component {
     // else: concatenate list of country codes
     const playerCountryQuery = (this.state.player_country === []) ? "" : this.state.player_country.map(x => "&player_country=" + x).join("")
     queryParams = queryParams + playerCountryQuery
-    // queryParams = queryParams + ((this.state.player_country !== 'all') ? ('&player_country=' + this.state.player_country) : "")
-    queryParams = queryParams + ((this.state.instrument !== 'all') ? ('&instrument=' + this.state.instrument) : "")
+
+    // Instrument: same as player: if empty list, get all instruments. Else, create an array of OR filters
+    const playerInstrumentQuery = (this.state.instrument === []) ? "" : this.state.instrument.map(x => "&instrument=" + x).join("")
+    queryParams = queryParams + playerInstrumentQuery
+
+    // queryParams = queryParams + ((this.state.instrument !== 'all') ? ('&instrument=' + this.state.instrument) : "")
     queryParams = queryParams + ((this.state.isActive !== 'all') ? ('&active=' + this.state.isActive) : "")
 
     this.props.reloadGraph(queryParams)
@@ -167,12 +172,13 @@ class FilterGraph extends React.Component {
    }
 
   handleInstrumentChange = selectedOption => {
-  console.log("instrument: ", selectedOption)
+    const InstrumentArray = (selectedOption === null)? [] : selectedOption.map(x => x['value']);
+    this.setState({
+      instrument: InstrumentArray
+    });
  }
 
  handleisActiveChange = selectedOption => {
-  console.log("isActive: ", selectedOption)
-
   this.setState({
     isActive: selectedOption['value']
   })
@@ -292,7 +298,6 @@ class DjangoVerse extends React.Component {
 
     // manually set the link distance between nodes
     this.fg.d3Force('link').distance(link => {
-      // console.log(link)
       if ((link.target.type === 'festival') || (link.source.type === 'festival')){
           // link distance for festivals depends on number of players and bands played
           let count = link.target.playersplayed.length + link.target.bandsplayed.length
@@ -422,7 +427,8 @@ class DjangoVerse extends React.Component {
       obj['label'] = obj.name;
       return obj
     })
-// <Search selectedOption={this.state.selectedOption} searchList={searchList} handleChange={this.handleChangeSearch} />
+    // array of node IDs to that NodeInfo can filter 'gigged with' info
+    const arrayNodeIDs = this.state.gypsyJazzScene.nodes.map( x => x['id'])
     return (
 
       <React.Fragment>
@@ -435,7 +441,7 @@ class DjangoVerse extends React.Component {
         handleToggleDVInfo={() => this.handleToggleDVInfo()}
         />
 
-        {this.state.nodeInfo && <NodeInfo nodeInfo={this.state.nodeInfo} closeBoxFun={() => {this.handleCloseNodeInfo()}}/>}
+        {this.state.nodeInfo && <NodeInfo nodeInfo={this.state.nodeInfo} closeBoxFun={() => {this.handleCloseNodeInfo()}} arrayNodeIDs={arrayNodeIDs} />}
         
         {this.state.toggleFilter && <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}/>}
 
