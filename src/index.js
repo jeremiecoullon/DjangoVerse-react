@@ -104,7 +104,7 @@ function DVInfo(props) {
 function NavBar(props) {
   return (<React.Fragment>
       <Navbar className="lenavbar" expand="lg">
-        <a href="https://londondjangocollective.herokuapp.com/djangoverse" target="_parent" class="navbar-brand navbar-LDC" id="LDC-in-navbar">DjangoVerse</a>
+        <a href="http://londondjangocollective.com" target="_parent" class="navbar-brand navbar-LDC" id="LDC-in-navbar">DjangoVerse</a>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
