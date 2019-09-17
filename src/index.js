@@ -8,6 +8,9 @@ import Nav from 'react-bootstrap/Nav';
 import Switch from 'react-switch';
 import makeAnimated from 'react-select/animated';
 
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+
 import SpriteText from 'three-spritetext';
 import './index.css';
 import './navbar.css';
@@ -53,17 +56,24 @@ function Search(props) {
     </React.Fragment>)
 }
 
-function DVInfo(props) {
-  return (<React.Fragment>
-      <div className="DVInfoWrapper">
-        
-        <div className="DVInfoHeader">
-          <h2>What is this?</h2>
-          <button type="button" className="close DVInfoCloseX" aria-label="Close" onClick={props.handleToggleDVInfo}>
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-          <div className="DVInfoHr"></div>
+
+function ModalDVInfo(props) {
+
+  return (
+    <React.Fragment>
+      <Modal 
+      show={props.show} 
+      onHide={props.handleClose}
+      size="lg"
+      dialogClassName="modal-custom-width"
+      aria-labelledby="contained-modal-title-vcenter"
+      >
+
+        <Modal.Header closeButton>
+          <Modal.Title>What is this?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
         <div className="DVInfoBody">
           <h2>The DjangoVerse</h2>
           <p>The DjangoVerse is a 3D graph of players in the Gypsy Jazz scene around the world. Two players are linked if they have gigged together.</p>
@@ -71,11 +81,10 @@ function DVInfo(props) {
           <li>Use the search box the nagivation bar to zoom in to a specific player.</li>
           <li>Click the "Toggle Filter" button in the navigation bar to filter the players: only display specific countries and instruments.</li>
           </ul>
-          <p>
-          
-          </p>
         </div>
+
         <div className="DVInfoHr"></div>
+
         <div className="DVInfoBody">
         <h2>Add Players</h2>
           <p>
@@ -90,15 +99,26 @@ function DVInfo(props) {
           </ul>
           <p>You can also <a href="http://www.londondjangocollective.com/api/forms/instrument/add" target="_blank" rel="noopener">add</a> or <a href="http://www.londondjangocollective.com/api/forms/instrument/list" target="_blank" rel="noopener">edit</a> instruments.</p>
         </div>
+
         <div className="DVInfoHr"></div>
+
         <div className="DVInfoBody">
-        <h2>Contribute</h2>
+          <h2>Contribute</h2>
           <p>
           Send any feedback, bugs, or other to jeremie.coullon@gmail.com. You can open an issue or make a pull request on  <a href="https://github.com/jeremiecoullon/DjangoVerse-react" target="_blank" rel="noopener">Github</a>
           </p>
         </div>
-      </div>
-    </React.Fragment>)
+
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={props.handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </React.Fragment>
+  );
 }
 
 function NavBar(props) {
@@ -109,7 +129,7 @@ function NavBar(props) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <p className="navbar-links fa fa-question-circle DVInfoButton" onClick={props.handleToggleDVInfo}> What is this?</p>
+            <p className="navbar-links fa fa-question-circle DVInfoButton" onClick={props.handleModalDVInfoShow}> What is this?</p>
             <p className="navbar-links fa"><span className="toggleFilterSpan">Toggle Filter:</span> <Switch className="navbar-switch-button" onChange={props.handleToggleFilter} checked={props.toggleFilter} /></p>
           </Nav>
           <Search selectedOption={props.selectedOption} searchList={props.searchList} handleChange={props.handleChange}/>
@@ -209,29 +229,6 @@ class FilterGraph extends React.Component {
  }
 
   render(){
-
-    // old player country filter
-    // <select name='player_country' value={this.state.player_country} onChange={this.handleInputChange} className="select_margin">
-    // <option value="all">All countries</option>
-      // {this.state.list_countries.player.map( x => 
-        // (<option value={x[0]}>{x[1]}</option>))}            
-    // </select>
-
-    // old instrument filter
-    // <select name='instrument' value={this.state.instrument} onChange={this.handleInputChange} className="select_margin">
-        // <option value="all">All instruments</option>
-        // {this.state.list_instruments.map(x => 
-          // (<option value={x}>{x}</option>))}
-      // </select>
-
-    // old isActive filter
-    // <select name='isActive' value={this.state.isActive} onChange={this.handleInputChange} className="select_margin">
-    // <option value='all'>All</option>
-    // <option value='True'>Active</option>
-    // <option value='False'>Inactive</option>
-    // </select>
-
-    // ===============
 
     const animatedComponents = makeAnimated();
     const countryOptions = this.state.list_countries.player.map( x => ({value: x[0], label: x[1]}))
@@ -412,11 +409,6 @@ class DjangoVerse extends React.Component {
     this.setState({'toggleFilter': !currentToggleValue})
   }
 
-  handleToggleDVInfo() {
-    const currentDVInfo = this.state.toggleDVInfo;
-    this.setState({'toggleDVInfo': !currentDVInfo})
-  }
-
   handleChangeSearch = selectedOption => {
     this.setState({selectedOption: selectedOption}, () => this._handleClick(selectedOption));
  }
@@ -462,14 +454,14 @@ class DjangoVerse extends React.Component {
         handleChange={this.handleChangeSearch}
         handleToggleFilter={() => this.handleToggleFilter()}
         toggleFilter={this.state.toggleFilter}
-        handleToggleDVInfo={() => this.handleToggleDVInfo()}
+        handleModalDVInfoShow={() => this.props.handleModalDVInfoShow()}
         />
 
         {this.state.nodeInfo && <NodeInfo nodeInfo={this.state.nodeInfo} closeBoxFun={() => {this.handleCloseNodeInfo()}} arrayNodeIDs={arrayNodeIDs} />}
         
         {this.state.toggleFilter && <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}/>}
 
-        {this.state.toggleDVInfo && <DVInfo handleToggleDVInfo={() => this.handleToggleDVInfo()}/>}
+        
         
 
         <ForceGraph3D
@@ -507,9 +499,35 @@ class DjangoVerse extends React.Component {
       );
     }
 }
+// <ModalDVInfo show={this.state.toggleDVInfo} handleClose={() => this.handleModalDVInfoClose()} />,
+
+class DVWrapper extends React.Component {
+  constructor(props){
+    super(props)
+
+    this.state = {
+      'toggleDVInfo': true
+    }
+  }
+
+  handleModalDVInfoShow() {
+    this.setState({'toggleDVInfo': true})
+  }
+  handleModalDVInfoClose() {
+    this.setState({'toggleDVInfo': false})
+  }
+
+  render() {
+    return (<React.Fragment>
+          <DjangoVerse handleModalDVInfoShow={() => this.handleModalDVInfoShow()}/>  
+          <ModalDVInfo show={this.state.toggleDVInfo} handleClose={() => this.handleModalDVInfoClose()} />,
+        </React.Fragment>)
+  }
+}
 
 
 ReactDOM.render(
-	<DjangoVerse/>,
+	// <DjangoVerse/>,
+  <DVWrapper/>,
 	document.getElementById("leroot"),
 	)
