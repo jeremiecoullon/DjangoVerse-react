@@ -76,7 +76,7 @@ function ModalDVInfo(props) {
 
         <div className="DVInfoBody">
           <h2>The DjangoVerse</h2>
-          <p>The DjangoVerse is a 3D graph of players in the Gypsy Jazz scene around the world. Two players are linked if they have gigged together.</p>
+          <p>The DjangoVerse is a 3D graph of players in the Gypsy Jazz scene around the world. The different colours correspond to different countries. Two players are linked if they have gigged together.</p>
           <ul>
           <li>Use the search box the nagivation bar to zoom in to a specific player.</li>
           <li>Click the "Toggle Filter" button in the navigation bar to filter the players: only display specific countries and instruments.</li>
@@ -298,7 +298,10 @@ class DjangoVerse extends React.Component {
 			nodeInfo: null,
       selectedOption: null,
       'toggleFilter': false,
-      'toggleDVInfo': true
+      'toggleDVInfo': true,
+      list_countries: {
+        'player': ['FR',]
+      },
 		}
     this.handleToggleFilter = this.handleToggleFilter.bind(this);
 	}
@@ -308,10 +311,15 @@ class DjangoVerse extends React.Component {
     try {
       // const res = await fetch('http://localhost:5000/players/?format=json');
       const res = await fetch(APIdomain+'api/D3endpoint/?format=json' + this.state.queryParams);
+      const res2 = await fetch(APIdomain+'api/countries/?format=json');
       
       const gypsyJazzScene = await res.json();
       this.setState({
         gypsyJazzScene
+      });
+      const list_countries = await res2.json();
+      this.setState({
+        list_countries
       });
     } catch (e) {
       console.log(e);
@@ -436,6 +444,13 @@ class DjangoVerse extends React.Component {
   }
 
 
+// nodeThreeObject={node => {
+//   const sprite = new SpriteText(node.name);
+//   sprite.color = node.color;
+//   sprite.textHeight = 8;
+//   return sprite;
+// }}
+
   render() {
     // add 'value' and 'label' to each node
     let searchList = this.state.gypsyJazzScene.nodes.map(obj => {
@@ -445,6 +460,12 @@ class DjangoVerse extends React.Component {
     })
     // array of node IDs to that NodeInfo can filter 'gigged with' info
     const arrayNodeIDs = this.state.gypsyJazzScene.nodes.map( x => x['id'])
+    // define an object converting country codes to country names for when user hovers over a node
+    let countryCodes = {}
+    this.state['list_countries']['player'].forEach( function (item, index) {
+      countryCodes[item[0]] = item[1]
+    })
+
     return (
 
       <React.Fragment>
@@ -461,13 +482,10 @@ class DjangoVerse extends React.Component {
         
         {this.state.toggleFilter && <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}/>}
 
-        
-        
-
         <ForceGraph3D
           ref={el => { this.fg = el; }}
           graphData={this.state.gypsyJazzScene}
-          nodeLabel="name"  
+          nodeLabel={node => countryCodes[node['country']]}
           onNodeClick={this._handleClick}
           nodeVal={this.getNodeSize}
           nodeAutoColorBy="country"
@@ -476,13 +494,22 @@ class DjangoVerse extends React.Component {
           enableNodeDrag={false}
           nodeOpacity={1}
           backgroundColor={"black"}
-          
+
           nodeThreeObject={node => {
+            // use a sphere as a drag handle
+            const obj = new THREE.Mesh(
+              new THREE.SphereGeometry(10),
+              new THREE.MeshBasicMaterial({ depthWrite: false, transparent: true, opacity: 0 })
+            );
+            // add text sprite as child
             const sprite = new SpriteText(node.name);
             sprite.color = node.color;
             sprite.textHeight = 8;
-            return sprite;
+            obj.add(sprite);
+            return obj;
           }}
+          
+          
 
           // nodeThreeObject={({ id }) => new THREE.Mesh(
           //   new THREE.SphereGeometry(4),

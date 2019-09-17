@@ -151,9 +151,9 @@ height: 200px;
   }
 }
 @media (max-width: 575px){
-    .modal-custom-width {
-      width: 90%;
-      left: 3%;
-      top: 5%;
+  .modal-custom-width {
+    width: 85%;
+    left: 5%;
+    top: 10%;
   }
 }
