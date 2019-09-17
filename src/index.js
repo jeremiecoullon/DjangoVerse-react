@@ -26,8 +26,8 @@ function NodeInfo(props) {
 		<div className='box_info' id='node_info'>
 
     {props.nodeInfo.node.external_URL? (<a href={props.nodeInfo.node.external_URL} target="_blank" rel="noopener">
-        <h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.nodeInfo.node.country})</h5>
-      </a>) : (<h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.nodeInfo.node.country})</h5>)}
+        <h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.countryCodes[props.nodeInfo.node.country]})</h5>
+      </a>) : (<h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.countryCodes[props.nodeInfo.node.country]})</h5>)}
       <i>Gigged with {giggedWithLength} players</i>
 			<div className="node_info_box">
       {props.nodeInfo.node.thumbnail && <img src={props.nodeInfo.node.thumbnail} className="node_info_image"></img>}
@@ -79,8 +79,8 @@ function ModalDVInfo(props) {
           <p>The DjangoVerse is a 3D graph of players in the Gypsy Jazz scene around the world. The different colours correspond to different countries. Two players are linked if they have gigged together.</p>
           <p>Some things you can do with the DjangoVerse are:</p>
           <ul>
-          <li>On desktop: hover over a player to get the country they're based in, and click on them to zoom in</li>
-          <li>On mobile: click once on a player to get the country they're based in, and click a second time to zoom in</li>
+          <li><b>On desktop:</b> hover over a player to get the country they're based in, and click on them to zoom in</li>
+          <li><b>On mobile:</b> click once on a player to get the country they're based in, and click a second time to zoom in</li>
           <li>Use the search box the nagivation bar to find and zoom in to a specific player.</li>
           <li>Click the "Toggle Filter" button in the navigation bar to filter the players: only display specific countries and instruments.</li>
           </ul>
@@ -126,7 +126,7 @@ function ModalDVInfo(props) {
 
 function NavBar(props) {
   return (<React.Fragment>
-      <Navbar className="lenavbar" expand="lg">
+      <Navbar className="lenavbar" expand="lg" variant="dark">
         <a href="http://londondjangocollective.com" target="_parent" class="navbar-brand navbar-LDC" id="LDC-in-navbar">DjangoVerse</a>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -481,7 +481,11 @@ class DjangoVerse extends React.Component {
         handleModalDVInfoShow={() => this.props.handleModalDVInfoShow()}
         />
 
-        {this.state.nodeInfo && <NodeInfo nodeInfo={this.state.nodeInfo} closeBoxFun={() => {this.handleCloseNodeInfo()}} arrayNodeIDs={arrayNodeIDs} />}
+        {this.state.nodeInfo && <NodeInfo 
+          nodeInfo={this.state.nodeInfo} 
+          closeBoxFun={() => {this.handleCloseNodeInfo()}} 
+          arrayNodeIDs={arrayNodeIDs} 
+          countryCodes={countryCodes} />}
         
         {this.state.toggleFilter && <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}/>}
 
