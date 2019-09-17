@@ -50,6 +50,7 @@ body {
 	right: 0;
 	bottom: 0; 
   top: auto;
+  min-width: 300px;
 }
 .hide_box {
   display: none;
@@ -85,8 +86,31 @@ height: 100px;
 }
 .node_info_node_name{
   color: #fff;
+  font-size: 17px;
+  margin: auto;
 }
-
+.node_info_header{
+  position: relative;
+}
+.node_info_close{
+  position: absolute;
+  right: 5px;
+  top: -17px
+}
+.node_info_list{
+  list-style: none;
+  padding-left: 0px;
+}
+.node_info_description{
+  margin-top: 0;
+}
+.nodeInfoHr {
+  height: 0;
+  margin: 1rem auto;
+  overflow: hidden;
+  border-top: 1px solid #dee2e63b;
+  width: 56%;
+}
 
 /* Modal: DV info; */
 .modal-custom-width {

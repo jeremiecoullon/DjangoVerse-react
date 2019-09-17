@@ -22,18 +22,31 @@ const APIdomain = 'https://londondjangocollective.herokuapp.com/'
 function NodeInfo(props) {
   // number of players rendered in the graph that the selected player has gigged with
   const giggedWithLength = props.nodeInfo.node.gigged_with.filter(x => props.arrayNodeIDs.includes(x)).length
-	return (
-		<div className='box_info' id='node_info'>
+	const stringInstruments = props.nodeInfo.node.instrument.map(x => x['name']).join(", ")
 
-    {props.nodeInfo.node.external_URL? (<a href={props.nodeInfo.node.external_URL} target="_blank" rel="noopener">
-        <h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.countryCodes[props.nodeInfo.node.country]})</h5>
-      </a>) : (<h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.countryCodes[props.nodeInfo.node.country]})</h5>)}
-      <i>Gigged with {giggedWithLength} players</i>
+  return (
+		<div className='box_info' id='node_info'>
+      <div class='row node_info_header'>
+        {props.nodeInfo.node.external_URL? 
+          (<a href={props.nodeInfo.node.external_URL} target="_blank" rel="noopener">
+          <h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.countryCodes[props.nodeInfo.node.country]})</h5>
+        </a>) : 
+          (<h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.countryCodes[props.nodeInfo.node.country]})</h5>)}
+
+          <button type="button" class="close node_info_close" aria-label="Close" onClick={props.closeBoxFun}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+
+      <div className="nodeInfoHr"></div>
+
 			<div className="node_info_box">
       {props.nodeInfo.node.thumbnail && <img src={props.nodeInfo.node.thumbnail} className="node_info_image"></img>}
-      <br></br>
-  			<p>{props.nodeInfo.node.description}</p>
-  			<p onClick={props.closeBoxFun}>Close</p>
+      <ul className="node_info_list">
+        <li>Instrument{props.nodeInfo.node.instrument.length >1 ? "s":""}: {stringInstruments}</li>
+        <li>Gigged with {giggedWithLength} player{giggedWithLength === 1 ? "":"s"}</li>
+      </ul>
+  			<p className="node_info_description">{props.nodeInfo.node.description}</p>
 			</div>
 		</div>)
 }
@@ -376,7 +389,7 @@ class DjangoVerse extends React.Component {
     // update state to render NodeInfo
     this.setState({'nodeInfo': {node}})
     // Aim at node from outside it
-    let distance = 80
+    let distance = 200
     if (node.type === 'festival'){
         distance = 200;
       }
@@ -424,36 +437,6 @@ class DjangoVerse extends React.Component {
     this.setState({selectedOption: selectedOption}, () => this._handleClick(selectedOption));
  }
 
- getNodeSize(node) {
-    let nodeSize;
-    switch (node.type) {
-      case 'player':
-        nodeSize = 1
-        break;
-      case 'band':
-        nodeSize = 20
-        break;
-      case 'festival':
-        nodeSize = 140
-        break;
-      default:
-        nodeSize = 5;
-    }
-    return nodeSize
-  }
-
-  lalaFun(node){
-    return node.name
-  }
-
-
-// nodeThreeObject={node => {
-//   const sprite = new SpriteText(node.name);
-//   sprite.color = node.color;
-//   sprite.textHeight = 8;
-//   return sprite;
-// }}
-
   render() {
     // add 'value' and 'label' to each node
     let searchList = this.state.gypsyJazzScene.nodes.map(obj => {
@@ -494,7 +477,6 @@ class DjangoVerse extends React.Component {
           graphData={this.state.gypsyJazzScene}
           nodeLabel={node => countryCodes[node['country']]}
           onNodeClick={this._handleClick}
-          nodeVal={this.getNodeSize}
           nodeAutoColorBy="country"
           linkWidth={0.7}
           // Note: need to set enableNodeDrag to false so that onNodeClick works on mobile
