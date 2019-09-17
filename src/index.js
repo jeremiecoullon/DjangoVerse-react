@@ -77,8 +77,11 @@ function ModalDVInfo(props) {
         <div className="DVInfoBody">
           <h2>The DjangoVerse</h2>
           <p>The DjangoVerse is a 3D graph of players in the Gypsy Jazz scene around the world. The different colours correspond to different countries. Two players are linked if they have gigged together.</p>
+          <p>Some things you can do with the DjangoVerse are:</p>
           <ul>
-          <li>Use the search box the nagivation bar to zoom in to a specific player.</li>
+          <li>On desktop: hover over a player to get the country they're based in, and click on them to zoom in</li>
+          <li>On mobile: click once on a player to get the country they're based in, and click a second time to zoom in</li>
+          <li>Use the search box the nagivation bar to find and zoom in to a specific player.</li>
           <li>Click the "Toggle Filter" button in the navigation bar to filter the players: only display specific countries and instruments.</li>
           </ul>
         </div>
@@ -508,25 +511,11 @@ class DjangoVerse extends React.Component {
             obj.add(sprite);
             return obj;
           }}
-          
-          
-
-          // nodeThreeObject={({ id }) => new THREE.Mesh(
-          //   new THREE.SphereGeometry(4),
-          //   new THREE.MeshLambertMaterial({
-          //     color: 'blue',
-          //     transparent: true,
-          //     opacity: 0.9
-          //   })
-          // )}
-          // TODO: modify force so that nodes are further apart
-
         />
       </React.Fragment>
       );
     }
 }
-// <ModalDVInfo show={this.state.toggleDVInfo} handleClose={() => this.handleModalDVInfoClose()} />,
 
 class DVWrapper extends React.Component {
   constructor(props){
