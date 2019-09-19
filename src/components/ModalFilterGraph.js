@@ -4,6 +4,8 @@ import makeAnimated from 'react-select/animated';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
+import './ModalFilterGraph.css';
+
 
 class ModalFilterGraph extends React.Component {
   constructor(props) {
@@ -103,7 +105,12 @@ class ModalFilterGraph extends React.Component {
     const activeOtions = [{value: 'all', label: 'All'}, {value: 'True', label: 'Active'}, {value: 'False', label: 'Inactive'}]
 
     return (<React.Fragment>
-      <Modal show={this.props.show} onHide={this.props.handleClose}>
+      <Modal 
+      show={this.props.show} 
+      onHide={this.props.handleClose}
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Filter DjangoVerse</Modal.Title>
           <i>Leave empty to select all</i>
@@ -151,7 +158,7 @@ class ModalFilterGraph extends React.Component {
         </div>
 
         <div>
-          <input type="submit" value="Reload" className="select_margin" />
+          <input type="submit" value="Reload" className="select_margin btn btn-light" />
         </div>
       </form>
 

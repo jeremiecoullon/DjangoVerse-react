@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import NodeInfo from './components/nodeInfo';
 import ModalDVInfo from './components/ModalDVInfo';
 import NavBar from './components/NavBar';
-import ModalFilterGraph from './components/FilterGraph';
+import ModalFilterGraph from './components/ModalFilterGraph';
 import SpriteText from 'three-spritetext';
 import './index.css';
 import './navbar.css';

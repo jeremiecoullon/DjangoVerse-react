@@ -64,21 +64,7 @@ body {
   color:black;
 }
 
-.navbar{
-  position: absolute;
-  top: 0;
-  width: 100%;
-  background-color: rgba(76, 77, 130, 0.39);
-  z-index: 1000;
-}
 
-.navbar-what_is_this{
-  padding-left: 40px;
-}
-
-.navbar-LDC {
-  padding-left: 40px;
-}
 
 .node_info_image{
 width: 150px;

@@ -26,6 +26,21 @@ h1 {
 /*.navbar-light, .navbar-toggler-icon {
     background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }*/
+.navbar{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background-color: rgba(76, 77, 130, 0.39);
+  z-index: 1000;
+}
+
+.navbar-what_is_this{
+  padding-left: 40px;
+}
+
+.navbar-LDC {
+  padding-left: 40px;
+}
 
 .lenavbar {
     background-color: rgb(55, 90, 127, 0.3);
@@ -55,9 +70,15 @@ a:hover{
 .navbar-links {
     color: #fff;
     padding-left: 10px;
-    margin-top: 26px;
+    margin-top: 10px;
 }
-
+.btn-outline-primary {
+    border-color: #395699;
+    color: #395699;
+}
+.navbar-buttons {
+    background-color: #000000cf;
+}
 #LDC-in-navbar {
     /*color: #fff;*/
     color: #395699;
