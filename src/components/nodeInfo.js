@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTooltip from 'react-tooltip'
 
 import './nodeInfo.css';
 
@@ -28,7 +29,13 @@ function NodeInfo(props) {
       {props.nodeInfo.node.thumbnail && <img src={props.nodeInfo.node.thumbnail} className="node_info_image" alt="player"></img>}
       <ul className="node_info_list">
         <li>Instrument{props.nodeInfo.node.instrument.length >1 ? "s":""}: {stringInstruments}</li>
-        <li>{giggedWithLength} Connection{giggedWithLength === 1 ? "":"s"}</li>
+        <li><span data-tip data-for='Connection_info' data-multiline={true} id="Connection_darken">{giggedWithLength} Connection{giggedWithLength === 1 ? "":"s"}</span></li>
+
+        
+        <ReactTooltip id='Connection_info' type='dark'>
+          <span>A connection means that<br></br> the players have gigged together</span>
+        </ReactTooltip>
+
       </ul>
   			<p className="node_info_description">{props.nodeInfo.node.description}</p>
 			</div>
