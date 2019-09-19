@@ -7,8 +7,7 @@ import * as THREE from 'three';
 import NodeInfo from './components/nodeInfo';
 import ModalDVInfo from './components/ModalDVInfo';
 import NavBar from './components/NavBar';
-import FilterGraph from './components/FilterGraph';
-
+import ModalFilterGraph from './components/FilterGraph';
 import SpriteText from 'three-spritetext';
 import './index.css';
 import './navbar.css';
@@ -29,8 +28,9 @@ class DjangoVerse extends React.Component {
 			queryParams: '&player=on',
 			nodeInfo: null,
       selectedOption: null,
-      'toggleFilter': false,
-      'toggleDVInfo': true,
+      toggleFilter: false,
+      toggleModalFilter: false,
+      toggleDVInfo: true,
       list_countries: {
         'player': ['FR',]
       },
@@ -161,6 +161,13 @@ class DjangoVerse extends React.Component {
     this.setState({'toggleDVInfo': false})
   }
 
+  handleModalFilterShow() {
+    this.setState({'toggleModalFilter': true})
+  }
+  handleModalFilterClose() {
+    this.setState({'toggleModalFilter': false})
+  }
+
   render() {
     // add 'value' and 'label' to each node
     let searchList = this.state.gypsyJazzScene.nodes.map(obj => {
@@ -176,6 +183,7 @@ class DjangoVerse extends React.Component {
       countryCodes[item[0]] = item[1]
     })
 
+// {this.state.toggleFilter && <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}} APIdomain={APIdomain}/>}
     return (
 
       <React.Fragment>
@@ -186,6 +194,7 @@ class DjangoVerse extends React.Component {
         handleToggleFilter={() => this.handleToggleFilter()}
         toggleFilter={this.state.toggleFilter}
         handleModalDVInfoShow={() => this.handleModalDVInfoShow()}
+        handleModalFilterShow={() => this.handleModalFilterShow()}
         />
 
         {this.state.nodeInfo && <NodeInfo 
@@ -194,7 +203,7 @@ class DjangoVerse extends React.Component {
           arrayNodeIDs={arrayNodeIDs} 
           countryCodes={countryCodes} />}
         
-        {this.state.toggleFilter && <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}} APIdomain={APIdomain}/>}
+        
 
         <ForceGraph3D
           ref={el => { this.fg = el; }}
@@ -224,6 +233,13 @@ class DjangoVerse extends React.Component {
         />
 
         <ModalDVInfo show={this.state.toggleDVInfo} handleClose={() => this.handleModalDVInfoClose()} />,
+
+        <ModalFilterGraph 
+        show={this.state.toggleModalFilter} 
+        handleClose={() => this.handleModalFilterClose()} 
+        reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}
+        APIdomain={APIdomain}
+        />,
 
       </React.Fragment>
       );

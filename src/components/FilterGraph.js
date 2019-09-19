@@ -1,9 +1,11 @@
 import React from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 
-class FilterGraph extends React.Component {
+class ModalFilterGraph extends React.Component {
   constructor(props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,6 +42,7 @@ class FilterGraph extends React.Component {
     } catch (e) {
       console.log(e);
     } 
+    console.log("didmount, ", this.state.list_countries)
   }
   
   handleSubmit(event) {
@@ -100,11 +103,15 @@ class FilterGraph extends React.Component {
     const activeOtions = [{value: 'all', label: 'All'}, {value: 'True', label: 'Active'}, {value: 'False', label: 'Inactive'}]
 
     return (<React.Fragment>
-      <div id="controls" className="box_info">
+      <Modal show={this.props.show} onHide={this.props.handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Filter DjangoVerse</Modal.Title>
+          <i>Leave empty to select all</i>
+        </Modal.Header>
+        <Modal.Body>
 
-      <h3>Filter DjangoVerse</h3>
-      <i>Leave empty to select all</i>
-      <form onSubmit={this.handleSubmit}>
+
+        <form onSubmit={this.handleSubmit}>
 
           <Select
             // defaultValue={[countryOptions[2], countryOptions[3]]}
@@ -147,10 +154,20 @@ class FilterGraph extends React.Component {
           <input type="submit" value="Reload" className="select_margin" />
         </div>
       </form>
-      </div>
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={this.props.handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </React.Fragment>)
   }
+
 }
 
 
-export default FilterGraph;
+
+
+export default ModalFilterGraph;

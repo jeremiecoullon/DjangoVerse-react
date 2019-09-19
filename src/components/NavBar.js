@@ -4,6 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Search from './search';
 import Switch from 'react-switch';
 
+// <p className="navbar-links fa"><span className="toggleFilterSpan">Toggle Filter:</span> <Switch className="navbar-switch-button" onChange={props.handleToggleFilter} checked={props.toggleFilter} /></p>
 
 function NavBar(props) {
   return (<React.Fragment>
@@ -14,7 +15,8 @@ function NavBar(props) {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <p className="navbar-links fa fa-question-circle DVInfoButton" onClick={props.handleModalDVInfoShow}> What is this?</p>
-            <p className="navbar-links fa"><span className="toggleFilterSpan">Toggle Filter:</span> <Switch className="navbar-switch-button" onChange={props.handleToggleFilter} checked={props.toggleFilter} /></p>
+            <p className="navbar-links DVInfoButton" onClick={props.handleModalFilterShow}>Reload</p>
+            
           </Nav>
           <Search selectedOption={props.selectedOption} searchList={props.searchList} handleChange={props.handleChange}/>
         </Navbar.Collapse>
