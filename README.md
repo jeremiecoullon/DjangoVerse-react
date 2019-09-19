@@ -5,4 +5,11 @@ The [DjangoVerse](http://www.londondjangocollective.com/djangoverse) is a 3D gra
 
 ![DjangoVerse screenshot](src/img/DjangoVerse_screenshot.png)
 
-This is built using React and [D3's force directed graph](https://github.com/vasturiano/react-force-graph), with a Django [API](http://www.londondjangocollective.com/api/). This project is part of the [London Django Collective](http://www.londondjangocollective.com), and the code for the website & API can be found [here](https://github.com/jeremiecoullon/LDC/).
+This is built using:
+
+- React
+- [D3's force directed graph](https://github.com/vasturiano/react-force-graph)
+- Django REST Framework
+- Heroku
+
+This project is part of the [London Django Collective](http://www.londondjangocollective.com), and the code for the website & [API](http://www.londondjangocollective.com/api/) can be found [here](https://github.com/jeremiecoullon/LDC/).
