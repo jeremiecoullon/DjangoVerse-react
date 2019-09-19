@@ -17,7 +17,7 @@ class ModalFilterGraph extends React.Component {
       playerOn: true,
       player_country: [],
       list_countries: {
-        'player': ['FR',]},
+        'player': []},
 
       instrument: [],
       list_instruments: [],
@@ -44,7 +44,6 @@ class ModalFilterGraph extends React.Component {
     } catch (e) {
       console.log(e);
     } 
-    console.log("didmount, ", this.state.list_countries)
   }
   
   handleSubmit(event) {
@@ -100,9 +99,14 @@ class ModalFilterGraph extends React.Component {
   render(){
 
     const animatedComponents = makeAnimated();
-    const countryOptions = this.state.list_countries.player.map( x => ({value: x[0], label: x[1]}))
-    const instrumentOptions = this.state.list_instruments.map(x => ({value: x, label: x}))
-    const activeOtions = [{value: 'all', label: 'All'}, {value: 'True', label: 'Active'}, {value: 'False', label: 'Inactive'}]
+    const countryOptions = this.state.list_countries.player.map( x => ({value: x[0], label: x[1]}));
+    const instrumentOptions = this.state.list_instruments.map(x => ({value: x, label: x}));
+    const activeOptions = [{value: 'all', label: "All"}, {value: 'True', label: 'Active'}, {value: 'False', label: 'Inactive'}];
+    
+    // default values for the forms are the parameters used to previously reload the graph
+    const defaultCountry = countryOptions.filter(x => this.state['player_country'].includes(x['value']));
+    const defaultInstrument = instrumentOptions.filter(x => this.state['instrument'].includes(x['value']));
+    const defaultActive = this.state.isActive === 'all'? [] : activeOptions.filter(x => this.state.isActive === x['value']);
 
     return (<React.Fragment>
       <Modal 
@@ -112,55 +116,53 @@ class ModalFilterGraph extends React.Component {
       centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Filter DjangoVerse</Modal.Title>
-          <i>Leave empty to select all</i>
+            <Modal.Title>Filter DjangoVerse</Modal.Title>          
         </Modal.Header>
         <Modal.Body>
+            <i>Leave empty to select all</i>
+            <form onSubmit={this.handleSubmit}>
 
+              <Select
+                defaultValue={defaultCountry}
+                isMulti
+                components={animatedComponents}
+                name="player_country"
+                options={countryOptions}
+                className="select_margin"
+                classNamePrefix="select"
+                onChange={this.handleCountryChange}
+                placeholder="Countries.."
+              />
 
-        <form onSubmit={this.handleSubmit}>
-
-          <Select
-            // defaultValue={[countryOptions[2], countryOptions[3]]}
-            isMulti
-            components={animatedComponents}
-            name="player_country"
-            options={countryOptions}
-            className="select_margin"
-            classNamePrefix="select"
-            onChange={this.handleCountryChange}
-            placeholder="Countries.."
-          />
-
-        <Select
-            // defaultValue={[instrumentOptions[2], instrumentOptions[3]]}
-            isMulti
-            components={animatedComponents}
-            name="instrument"
-            options={instrumentOptions}
-            className="select_margin"
-            classNamePrefix="select"
-            onChange={this.handleInstrumentChange}
-            placeholder="Instruments.."
-          />
-
-        <div>        
             <Select
-            // defaultValue={[instrumentOptions[2], instrumentOptions[3]]}
-            components={animatedComponents}
-            name="isactive"
-            options={activeOtions}
-            className="select_margin"
-            classNamePrefix="select"
-            onChange={this.handleisActiveChange}
-            placeholder="Is active..."
-          />
-        </div>
+                defaultValue={defaultInstrument}
+                isMulti
+                components={animatedComponents}
+                name="instrument"
+                options={instrumentOptions}
+                className="select_margin"
+                classNamePrefix="select"
+                onChange={this.handleInstrumentChange}
+                placeholder="Instruments.."
+              />
 
-        <div>
-          <input type="submit" value="Reload" className="select_margin btn btn-light" />
-        </div>
-      </form>
+            <div>        
+                <Select
+                defaultValue={defaultActive}
+                components={animatedComponents}
+                name="isactive"
+                options={activeOptions}
+                className="select_margin"
+                classNamePrefix="select"
+                onChange={this.handleisActiveChange}
+                placeholder="Is active..."
+              />
+            </div>
+
+            <div>
+              <input type="submit" value="Reload" className="select_margin btn btn-light" />
+            </div>
+          </form>
 
         </Modal.Body>
         <Modal.Footer>

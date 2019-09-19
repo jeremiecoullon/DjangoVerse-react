@@ -70,7 +70,7 @@ a:hover{
 .navbar-links {
     color: #fff;
     padding-left: 10px;
-    margin-top: 10px;
+    margin-top: 2px;
 }
 .btn-outline-primary {
     border-color: #395699;
@@ -85,6 +85,7 @@ a:hover{
     font-family: Unpack-Fast;
     font-size: 30px;
     padding-right: 30px;
+    padding-bottom: 10px;
 }
 .toggleFilterButton{
     text-align: center;
@@ -121,6 +122,9 @@ a:hover{
     .toggleFilterSpan {
       padding-left: 0px;
     }
+    .navbar-links {
+    margin-top: 10px;
+}
   }
 
 @media(min-width: 945px) {

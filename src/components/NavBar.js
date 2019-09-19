@@ -5,6 +5,7 @@ import Search from './search';
 import Switch from 'react-switch';
 import Button from 'react-bootstrap/Button';
 
+import './navbar.css';
 
 function NavBar(props) {
   return (<React.Fragment>
@@ -21,7 +22,7 @@ function NavBar(props) {
           </div>
           <div className='navbar-links'>
           <Button variant="outline-primary" className="navbar-buttons" onClick={props.handleModalFilterShow}>
-            Reload Graph
+            Filter DjangoVerse
           </Button>
           </div>
           

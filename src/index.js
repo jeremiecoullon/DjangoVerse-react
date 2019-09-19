@@ -10,7 +10,7 @@ import NavBar from './components/NavBar';
 import ModalFilterGraph from './components/ModalFilterGraph';
 import SpriteText from 'three-spritetext';
 import './index.css';
-import './navbar.css';
+// import './navbar.css';
 import './MyFontsWebfontsKit.css';
 
 const APIdomain = 'https://londondjangocollective.herokuapp.com/'
