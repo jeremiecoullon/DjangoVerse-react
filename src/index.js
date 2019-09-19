@@ -1,15 +1,13 @@
 import React from 'react';
-import Select from 'react-select'
 import ReactDOM from 'react-dom';
 import ForceGraph3D from 'react-force-graph-3d';
 import * as THREE from 'three';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import Switch from 'react-switch';
-import makeAnimated from 'react-select/animated';
 
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
+
+import NodeInfo from './components/nodeInfo';
+import ModalDVInfo from './components/ModalDVInfo';
+import NavBar from './components/NavBar';
+import FilterGraph from './components/FilterGraph';
 
 import SpriteText from 'three-spritetext';
 import './index.css';
@@ -19,290 +17,8 @@ import './MyFontsWebfontsKit.css';
 const APIdomain = 'https://londondjangocollective.herokuapp.com/'
 // const APIdomain = 'http://localhost:5000/'
 
-function NodeInfo(props) {
-  // number of players rendered in the graph that the selected player has gigged with
-  const giggedWithLength = props.nodeInfo.node.gigged_with.filter(x => props.arrayNodeIDs.includes(x)).length
-	const stringInstruments = props.nodeInfo.node.instrument.map(x => x['name']).join(", ")
-
-  return (
-		<div className='box_info' id='node_info'>
-      <div class='row node_info_header'>
-        {props.nodeInfo.node.external_URL? 
-          (<a href={props.nodeInfo.node.external_URL} target="_blank" rel="noopener">
-          <h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.countryCodes[props.nodeInfo.node.country]})</h5>
-        </a>) : 
-          (<h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.countryCodes[props.nodeInfo.node.country]})</h5>)}
-
-          <button type="button" class="close node_info_close" aria-label="Close" onClick={props.closeBoxFun}>
-            <span aria-hidden="true">&times;</span>
-          </button>
-      </div>
-
-      <div className="nodeInfoHr"></div>
-
-			<div className="node_info_box">
-      {props.nodeInfo.node.thumbnail && <img src={props.nodeInfo.node.thumbnail} className="node_info_image"></img>}
-      <ul className="node_info_list">
-        <li>Instrument{props.nodeInfo.node.instrument.length >1 ? "s":""}: {stringInstruments}</li>
-        <li>Gigged with {giggedWithLength} player{giggedWithLength === 1 ? "":"s"}</li>
-      </ul>
-  			<p className="node_info_description">{props.nodeInfo.node.description}</p>
-			</div>
-		</div>)
-}
-
-function Search(props) {
-  const customStyles = {
-    control: styles => ({ ...styles, backgroundColor: 'white', 'width': 250}),
-  };
-  return (<React.Fragment>
-      <div className="box_search"> 
-      <Select
-        value={props.selectedOption}
-        options={props.searchList}
-        onChange={props.handleChange}
-        placeholder= "Search player..."
-        openMenuOnClick={false}
-        styles={customStyles}
-      />
-      </div>
-    </React.Fragment>)
-}
 
 
-function ModalDVInfo(props) {
-
-  return (
-    <React.Fragment>
-      <Modal 
-      show={props.show} 
-      onHide={props.handleClose}
-      size="lg"
-      dialogClassName="modal-custom-width"
-      aria-labelledby="contained-modal-title-vcenter"
-      >
-
-        <Modal.Header closeButton>
-          <Modal.Title>What is this?</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-
-        <div className="DVInfoBody">
-          <h2>The DjangoVerse</h2>
-          <p>The DjangoVerse is a 3D graph of players in the Gypsy Jazz scene around the world. The different colours correspond to different countries. Two players are linked if they have gigged together.</p>
-          <p>Some things you can do with the DjangoVerse are:</p>
-          <ul>
-          <li><b>On desktop:</b> hover over a player to get the country they're based in, and click on them to zoom in</li>
-          <li><b>On mobile:</b> click once on a player to get the country they're based in, and click a second time to zoom in</li>
-          <li>Use the search box the nagivation bar to find and zoom in to a specific player.</li>
-          <li>Click the "Toggle Filter" button in the navigation bar to filter the players: only display specific countries and instruments.</li>
-          </ul>
-        </div>
-
-        <div className="DVInfoHr"></div>
-
-        <div className="DVInfoBody">
-        <h2>Add Players</h2>
-          <p>
-          You can <a href="http://www.londondjangocollective.com/api/forms/player/add" target="_blank" rel="noopener">add players</a> to this yourself, or <a href="http://www.londondjangocollective.com/api/forms/player/list" target="_blank" rel="noopener">edit existing players</a>. 
-          You can add information such as:
-          </p>
-          <ul>
-          <li>What they play and who they've gigged with</li>
-          <li>A short description of who they are</li>
-          <li>A picture of them</li>
-          <li>A URL to their website</li>
-          </ul>
-          <p>You can also <a href="http://www.londondjangocollective.com/api/forms/instrument/add" target="_blank" rel="noopener">add</a> or <a href="http://www.londondjangocollective.com/api/forms/instrument/list" target="_blank" rel="noopener">edit</a> instruments.</p>
-        </div>
-
-        <div className="DVInfoHr"></div>
-
-        <div className="DVInfoBody">
-          <h2>Contribute</h2>
-          <p>
-          Send any feedback, bugs, or other to jeremie.coullon@gmail.com. You can open an issue or make a pull request on  <a href="https://github.com/jeremiecoullon/DjangoVerse-react" target="_blank" rel="noopener">Github</a>
-          </p>
-        </div>
-
-
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={props.handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </React.Fragment>
-  );
-}
-
-function NavBar(props) {
-  return (<React.Fragment>
-      <Navbar className="lenavbar" expand="lg" variant="dark">
-        <a href="http://londondjangocollective.com" target="_parent" class="navbar-brand navbar-LDC" id="LDC-in-navbar">DjangoVerse</a>
-
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <p className="navbar-links fa fa-question-circle DVInfoButton" onClick={props.handleModalDVInfoShow}> What is this?</p>
-            <p className="navbar-links fa"><span className="toggleFilterSpan">Toggle Filter:</span> <Switch className="navbar-switch-button" onChange={props.handleToggleFilter} checked={props.toggleFilter} /></p>
-          </Nav>
-          <Search selectedOption={props.selectedOption} searchList={props.searchList} handleChange={props.handleChange}/>
-        </Navbar.Collapse>
-      </Navbar>
-    </React.Fragment>)
- }
-
-
-class FilterGraph extends React.Component {
-  constructor(props) {
-    super(props)
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-
-    this.state = {
-      playerOn: true,
-      player_country: [],
-      list_countries: {
-        'player': ['FR',]},
-
-      instrument: [],
-      list_instruments: [],
-
-      isActive: 'all',
-    }
-  }
-
-
-  async componentDidMount() {
-    // ASYNC VERSION
-    try {
-      const res = await fetch(APIdomain+'api/countries/?format=json');
-      const res2 = await fetch(APIdomain+'api/all_instruments/?format=json');
-      
-      const list_countries = await res.json();
-      this.setState({
-        list_countries
-      });
-      const instruments = await res2.json();
-      this.setState({
-        list_instruments: instruments.instruments
-      });
-    } catch (e) {
-      console.log(e);
-    } 
-  }
-  
-  handleSubmit(event) {
-    let queryParams = this.state.playerOn ? '&player=on' : ""
-
-    // Player countries: if state is empty array: return empty string (so keep all countries)
-    // else: concatenate list of country codes
-    const playerCountryQuery = (this.state.player_country === []) ? "" : this.state.player_country.map(x => "&player_country=" + x).join("")
-    queryParams = queryParams + playerCountryQuery
-
-    // Instrument: same as player: if empty list, get all instruments. Else, create an array of OR filters
-    const playerInstrumentQuery = (this.state.instrument === []) ? "" : this.state.instrument.map(x => "&instrument=" + x).join("")
-    queryParams = queryParams + playerInstrumentQuery
-
-    // queryParams = queryParams + ((this.state.instrument !== 'all') ? ('&instrument=' + this.state.instrument) : "")
-    queryParams = queryParams + ((this.state.isActive !== 'all') ? ('&active=' + this.state.isActive) : "")
-
-    this.props.reloadGraph(queryParams)
-    event.preventDefault();
-  }
-
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    })
-  }
-
-  handleCountryChange = selectedOption => {
-    // set State to either empty array or list of country codes
-    const countryArray = (selectedOption === null)? [] : selectedOption.map(x => x['value']);
-    this.setState({
-      player_country: countryArray
-    })
-   }
-
-  handleInstrumentChange = selectedOption => {
-    const InstrumentArray = (selectedOption === null)? [] : selectedOption.map(x => x['value']);
-    this.setState({
-      instrument: InstrumentArray
-    });
- }
-
- handleisActiveChange = selectedOption => {
-  this.setState({
-    isActive: selectedOption['value']
-  })
- }
-
-  render(){
-
-    const animatedComponents = makeAnimated();
-    const countryOptions = this.state.list_countries.player.map( x => ({value: x[0], label: x[1]}))
-    const instrumentOptions = this.state.list_instruments.map(x => ({value: x, label: x}))
-    const activeOtions = [{value: 'all', label: 'All'}, {value: 'True', label: 'Active'}, {value: 'False', label: 'Inactive'}]
-
-    return (<React.Fragment>
-      <div id="controls" className="box_info">
-
-      <h3>Filter DjangoVerse</h3>
-      <i>Leave empty to select all</i>
-      <form onSubmit={this.handleSubmit}>
-
-          <Select
-            // defaultValue={[countryOptions[2], countryOptions[3]]}
-            isMulti
-            components={animatedComponents}
-            name="player_country"
-            options={countryOptions}
-            className="select_margin"
-            classNamePrefix="select"
-            onChange={this.handleCountryChange}
-            placeholder="Countries.."
-          />
-
-        <Select
-            // defaultValue={[instrumentOptions[2], instrumentOptions[3]]}
-            isMulti
-            components={animatedComponents}
-            name="instrument"
-            options={instrumentOptions}
-            className="select_margin"
-            classNamePrefix="select"
-            onChange={this.handleInstrumentChange}
-            placeholder="Instruments.."
-          />
-
-        <div>        
-            <Select
-            // defaultValue={[instrumentOptions[2], instrumentOptions[3]]}
-            components={animatedComponents}
-            name="isactive"
-            options={activeOtions}
-            className="select_margin"
-            classNamePrefix="select"
-            onChange={this.handleisActiveChange}
-            placeholder="Is active..."
-          />
-        </div>
-
-        <div>
-          <input type="submit" value="Reload" className="select_margin" />
-        </div>
-      </form>
-      </div>
-    </React.Fragment>)
-  }
-}
 
 
 class DjangoVerse extends React.Component {
@@ -437,6 +153,14 @@ class DjangoVerse extends React.Component {
     this.setState({selectedOption: selectedOption}, () => this._handleClick(selectedOption));
  }
 
+
+  handleModalDVInfoShow() {
+    this.setState({'toggleDVInfo': true})
+  }
+  handleModalDVInfoClose() {
+    this.setState({'toggleDVInfo': false})
+  }
+
   render() {
     // add 'value' and 'label' to each node
     let searchList = this.state.gypsyJazzScene.nodes.map(obj => {
@@ -461,7 +185,7 @@ class DjangoVerse extends React.Component {
         handleChange={this.handleChangeSearch}
         handleToggleFilter={() => this.handleToggleFilter()}
         toggleFilter={this.state.toggleFilter}
-        handleModalDVInfoShow={() => this.props.handleModalDVInfoShow()}
+        handleModalDVInfoShow={() => this.handleModalDVInfoShow()}
         />
 
         {this.state.nodeInfo && <NodeInfo 
@@ -470,7 +194,7 @@ class DjangoVerse extends React.Component {
           arrayNodeIDs={arrayNodeIDs} 
           countryCodes={countryCodes} />}
         
-        {this.state.toggleFilter && <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}/>}
+        {this.state.toggleFilter && <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}} APIdomain={APIdomain}/>}
 
         <ForceGraph3D
           ref={el => { this.fg = el; }}
@@ -498,38 +222,16 @@ class DjangoVerse extends React.Component {
             return obj;
           }}
         />
+
+        <ModalDVInfo show={this.state.toggleDVInfo} handleClose={() => this.handleModalDVInfoClose()} />,
+
       </React.Fragment>
       );
     }
 }
 
-class DVWrapper extends React.Component {
-  constructor(props){
-    super(props)
-
-    this.state = {
-      'toggleDVInfo': true
-    }
-  }
-
-  handleModalDVInfoShow() {
-    this.setState({'toggleDVInfo': true})
-  }
-  handleModalDVInfoClose() {
-    this.setState({'toggleDVInfo': false})
-  }
-
-  render() {
-    return (<React.Fragment>
-          <DjangoVerse handleModalDVInfoShow={() => this.handleModalDVInfoShow()}/>  
-          <ModalDVInfo show={this.state.toggleDVInfo} handleClose={() => this.handleModalDVInfoClose()} />,
-        </React.Fragment>)
-  }
-}
-
 
 ReactDOM.render(
-	// <DjangoVerse/>,
-  <DVWrapper/>,
+	<DjangoVerse/>,
 	document.getElementById("leroot"),
 	)
