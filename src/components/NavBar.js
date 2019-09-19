@@ -2,7 +2,6 @@ import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Search from './search';
-import Switch from 'react-switch';
 import Button from 'react-bootstrap/Button';
 
 import './navbar.css';
@@ -10,7 +9,7 @@ import './navbar.css';
 function NavBar(props) {
   return (<React.Fragment>
       <Navbar className="lenavbar" expand="lg" variant="dark">
-        <a href="http://londondjangocollective.com" target="_parent" class="navbar-brand navbar-LDC" id="LDC-in-navbar">DjangoVerse</a>
+        <a href="http://londondjangocollective.com" target="_parent" className="navbar-brand navbar-LDC" id="LDC-in-navbar">DjangoVerse</a>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

@@ -38,7 +38,7 @@ function ModalDVInfo(props) {
         <div className="DVInfoBody">
         <h2>Add Players</h2>
           <p>
-          You can <a href="http://www.londondjangocollective.com/api/forms/player/add" target="_blank" rel="noopener">add players</a> to this yourself, or <a href="http://www.londondjangocollective.com/api/forms/player/list" target="_blank" rel="noopener">edit existing players</a>. 
+          You can <a href="http://www.londondjangocollective.com/api/forms/player/add" target="_blank"  rel="noopener noreferrer">add players</a> to this yourself, or <a href="http://www.londondjangocollective.com/api/forms/player/list" target="_blank"  rel="noopener noreferrer">edit existing players</a>. 
           You can add information such as:
           </p>
           <ul>
@@ -47,7 +47,7 @@ function ModalDVInfo(props) {
           <li>A picture of them</li>
           <li>A URL to their website</li>
           </ul>
-          <p>You can also <a href="http://www.londondjangocollective.com/api/forms/instrument/add" target="_blank" rel="noopener">add</a> or <a href="http://www.londondjangocollective.com/api/forms/instrument/list" target="_blank" rel="noopener">edit</a> instruments.</p>
+          <p>You can also <a href="http://www.londondjangocollective.com/api/forms/instrument/add" target="_blank"  rel="noopener noreferrer">add</a> or <a href="http://www.londondjangocollective.com/api/forms/instrument/list" target="_blank"  rel="noopener noreferrer">edit</a> instruments.</p>
         </div>
 
         <div className="DVInfoHr"></div>
@@ -55,7 +55,7 @@ function ModalDVInfo(props) {
         <div className="DVInfoBody">
           <h2>Contribute</h2>
           <p>
-          Send any feedback, bugs, or other to jeremie.coullon@gmail.com. You can open an issue or make a pull request on  <a href="https://github.com/jeremiecoullon/DjangoVerse-react" target="_blank" rel="noopener">Github</a>
+          Send any feedback, bugs, or other to jeremie.coullon@gmail.com. You can open an issue or make a pull request on  <a href="https://github.com/jeremiecoullon/DjangoVerse-react" target="_blank"  rel="noopener noreferrer">Github</a>
           </p>
         </div>
 

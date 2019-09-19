@@ -115,9 +115,30 @@ class DjangoVerse extends React.Component {
     this.fg.cameraPosition(
       { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
       node, // lookAt ({ x, y, z })
-      2500  // ms transition duration
+      1500  // ms transition duration
     );
+    // un-highlight all nodes in case some of them are highlighted
+    this.state.gypsyJazzScene.nodes.forEach(function(e) {e['highlightNode']=false})
+    // highlight the links of the current node
+    node.highlightNode = true
   };
+
+  linkColor(node) {
+    // When a node is highlighted (on click), set the link color to red
+    if (node.source.highlightNode || node.target.highlightNode){
+        return 'red'}
+      else{
+          return 'grey'
+        }
+  }
+  linkWidth(node){
+    // When a node is highlighted (on click), make the link widere
+   if (node.source.highlightNode || node.target.highlightNode){
+        return 1.5}
+      else{
+          return 0.2
+        }
+  }
 
   // skybox(){
     // NEED TO FIX CORS PROBLEM
@@ -209,7 +230,8 @@ class DjangoVerse extends React.Component {
           nodeLabel={node => countryCodes[node['country']]}
           onNodeClick={this._handleClick}
           nodeAutoColorBy="country"
-          linkWidth={0.7}
+          linkWidth={this.linkWidth}
+          linkColor={this.linkColor}
           // Note: need to set enableNodeDrag to false so that onNodeClick works on mobile
           enableNodeDrag={false}
           nodeOpacity={1}

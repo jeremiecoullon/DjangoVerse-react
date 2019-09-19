@@ -10,6 +10,6 @@ This is built using:
 - React
 - [D3's force directed graph](https://github.com/vasturiano/react-force-graph)
 - Django REST Framework
-- Heroku
+- Heroku and S3
 
 This project is part of the [London Django Collective](http://www.londondjangocollective.com), and the code for the website & [API](http://www.londondjangocollective.com/api/) can be found [here](https://github.com/jeremiecoullon/LDC/).
