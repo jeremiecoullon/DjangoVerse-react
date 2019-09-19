@@ -39,7 +39,8 @@ h1 {
 }
 
 .navbar-LDC {
-  padding-left: 40px;
+  margin-left: 40px;
+  cursor: pointer;
 }
 
 .lenavbar {
@@ -114,7 +115,7 @@ a:hover{
         padding-right: 0px;
     }
     .navbar-LDC {
-        padding-left: 0px;
+        margin-left: 0px;
     }
 }
 
@@ -129,6 +130,6 @@ a:hover{
 
 @media(min-width: 945px) {
     .navbar-LDC {
-        padding-left: 14%;
+        margin-left: 14%;
     }
 }

@@ -98,20 +98,15 @@ class DjangoVerse extends React.Component {
   }
 
   reloadGraph(newQueryParams) {
+    this.state.gypsyJazzScene.nodes.forEach(function(e) {
+        e['highlightNode']=false; e['showNode']=true
+      })
     // Callback: only reload graph after updated params
     this.setState({queryParams: newQueryParams}, () => this.componentDidMount(false));
     this.reCentreCamera();
-    // const zValue = Math.cbrt(this.state.gypsyJazzScene.nodes.length)*150;
-    // this.fg.cameraPosition(
-    //   { x: 0, y: 0, z:  zValue}, // reposition the camera
-    //   { x: 0, y: 0, z: 0}, // look at the center
-    //   2500  // ms transition duration
-    // );
-    // this.setState({
-    //   nodeInfo: null,
-    //   selectedOption: null,
-    // });
-
+  }
+  reloadGraphCurrentParams() {
+    this.reloadGraph(this.state.queryParams)
   }
 
   
@@ -187,6 +182,7 @@ class DjangoVerse extends React.Component {
 
   handleCloseNodeInfo(){
     this.setState({'nodeInfo': null});
+    // undo link highlighing
     this.state.gypsyJazzScene.nodes.forEach(function(e) {
       e['highlightNode']=false; e['showNode']=true
     })
@@ -196,7 +192,10 @@ class DjangoVerse extends React.Component {
     // Close NodeInfo when opening the hamburger in the NavBar (but not when closing it)
     if (e){
       this.setState({'nodeInfo': null}); 
-      this.state.gypsyJazzScene.nodes.forEach(function(e) {e['highlightNode']=false; e['showNode']=true})
+      // undo link highlighing
+      this.state.gypsyJazzScene.nodes.forEach(function(e) {
+        e['highlightNode']=false; e['showNode']=true
+      })
     }
   }
 
@@ -252,6 +251,7 @@ class DjangoVerse extends React.Component {
         handleModalDVInfoShow={() => this.handleModalDVInfoShow()}
         handleModalFilterShow={() => this.handleModalFilterShow()}
         handleNavCloseNodeInfo={this.handleNavCloseNodeInfo}
+        reloadGraphCurrentParams={() => this.reloadGraphCurrentParams()}
         />
 
         {this.state.nodeInfo && <NodeInfo 
