@@ -55,6 +55,9 @@ class DjangoVerse extends React.Component {
     } catch (e) {
       console.log(e);
     }
+    // set 'showNode'=true for all nodes. when a node is clicked (in `_handleClick()`) then
+    // all nodes that weren't clicked on will be made transparence
+    this.state.gypsyJazzScene.nodes.forEach(function(e) {e['showNode']=true})
 
     // manually set the link distance between nodes
     this.fg.d3Force('link').distance(link => {
@@ -122,6 +125,14 @@ class DjangoVerse extends React.Component {
     this.state.gypsyJazzScene.nodes.forEach(function(e) {e['highlightNode']=false})
     // highlight the links of the current node
     node.highlightNode = true
+
+    // Make all nodes a bit transparent
+    this.state.gypsyJazzScene.nodes.forEach(function(e) {e['showNode']=false})
+    // Make selected node opaque again
+    node.showNode=true
+    // Make all connected players also opaque
+    const giggedWith = this.state.gypsyJazzScene.nodes.filter(x => node.gigged_with.includes(x['id']))
+    giggedWith.forEach(function(e) {e['showNode']=true})
   };
 
   linkColor(node) {
@@ -201,7 +212,7 @@ class DjangoVerse extends React.Component {
       obj['label'] = obj.name;
       return obj
     })
-    // array of node IDs to that NodeInfo can filter 'gigged with' info
+    // array of node IDs so that NodeInfo can filter 'gigged with' info
     const arrayNodeIDs = this.state.gypsyJazzScene.nodes.map( x => x['id'])
     // define an object converting country codes to country names for when user hovers over a node
     let countryCodes = {}
@@ -253,7 +264,15 @@ class DjangoVerse extends React.Component {
             );
             // add text sprite as child
             const sprite = new SpriteText(node.name);
-            sprite.color = node.color;
+            
+            // transparency depends on whether node is clicked on
+            if (node.showNode){
+              sprite.color=node.color
+            }
+            else {
+              sprite.color=node.color.concat('66');
+            }
+
             sprite.textHeight = 8;
             obj.add(sprite);
             return obj;
