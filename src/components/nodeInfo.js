@@ -28,7 +28,7 @@ function NodeInfo(props) {
       {props.nodeInfo.node.thumbnail && <img src={props.nodeInfo.node.thumbnail} className="node_info_image"></img>}
       <ul className="node_info_list">
         <li>Instrument{props.nodeInfo.node.instrument.length >1 ? "s":""}: {stringInstruments}</li>
-        <li>Gigged with {giggedWithLength} player{giggedWithLength === 1 ? "":"s"}</li>
+        <li>{giggedWithLength} Connection{giggedWithLength === 1 ? "":"s"}</li>
       </ul>
   			<p className="node_info_description">{props.nodeInfo.node.description}</p>
 			</div>
