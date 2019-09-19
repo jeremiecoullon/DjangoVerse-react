@@ -84,9 +84,7 @@ class DjangoVerse extends React.Component {
     }
     }
 
-  reloadGraph(newQueryParams) {
-    // Callback: only reload graph after updated params
-    this.setState({queryParams: newQueryParams}, () => this.componentDidMount(false));
+  reCentreCamera(){
     const zValue = Math.cbrt(this.state.gypsyJazzScene.nodes.length)*150;
     this.fg.cameraPosition(
       { x: 0, y: 0, z:  zValue}, // reposition the camera
@@ -97,6 +95,22 @@ class DjangoVerse extends React.Component {
       nodeInfo: null,
       selectedOption: null,
     });
+  }
+
+  reloadGraph(newQueryParams) {
+    // Callback: only reload graph after updated params
+    this.setState({queryParams: newQueryParams}, () => this.componentDidMount(false));
+    this.reCentreCamera();
+    // const zValue = Math.cbrt(this.state.gypsyJazzScene.nodes.length)*150;
+    // this.fg.cameraPosition(
+    //   { x: 0, y: 0, z:  zValue}, // reposition the camera
+    //   { x: 0, y: 0, z: 0}, // look at the center
+    //   2500  // ms transition duration
+    // );
+    // this.setState({
+    //   nodeInfo: null,
+    //   selectedOption: null,
+    // });
 
   }
 
@@ -173,11 +187,16 @@ class DjangoVerse extends React.Component {
 
   handleCloseNodeInfo(){
     this.setState({'nodeInfo': null});
+    this.state.gypsyJazzScene.nodes.forEach(function(e) {
+      e['highlightNode']=false; e['showNode']=true
+    })
+    this.reCentreCamera();
   }
   handleNavCloseNodeInfo(e){
     // Close NodeInfo when opening the hamburger in the NavBar (but not when closing it)
     if (e){
       this.setState({'nodeInfo': null}); 
+      this.state.gypsyJazzScene.nodes.forEach(function(e) {e['highlightNode']=false; e['showNode']=true})
     }
   }
 
