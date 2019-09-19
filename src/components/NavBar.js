@@ -8,7 +8,7 @@ import './navbar.css';
 
 function NavBar(props) {
   return (<React.Fragment>
-      <Navbar className="lenavbar" expand="lg" variant="dark">
+      <Navbar className="lenavbar" expand="lg" variant="dark" onToggle={props.handleNavCloseNodeInfo}>
         <a href="http://londondjangocollective.com" target="_parent" className="navbar-brand navbar-LDC" id="LDC-in-navbar">DjangoVerse</a>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

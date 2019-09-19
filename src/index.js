@@ -36,6 +36,7 @@ class DjangoVerse extends React.Component {
       },
 		}
     this.handleToggleFilter = this.handleToggleFilter.bind(this);
+    this.handleNavCloseNodeInfo = this.handleNavCloseNodeInfo.bind(this);
 	}
 
   async componentDidMount(addLights=true) {
@@ -136,7 +137,7 @@ class DjangoVerse extends React.Component {
    if (node.source.highlightNode || node.target.highlightNode){
         return 1.5}
       else{
-          return 0.2
+          return 0.3
         }
   }
 
@@ -161,6 +162,12 @@ class DjangoVerse extends React.Component {
 
   handleCloseNodeInfo(){
     this.setState({'nodeInfo': null});
+  }
+  handleNavCloseNodeInfo(e){
+    // Close NodeInfo when opening the hamburger in the NavBar (but not when closing it)
+    if (e){
+      this.setState({'nodeInfo': null}); 
+    }
   }
 
   handleToggleFilter() {
@@ -214,6 +221,7 @@ class DjangoVerse extends React.Component {
         toggleFilter={this.state.toggleFilter}
         handleModalDVInfoShow={() => this.handleModalDVInfoShow()}
         handleModalFilterShow={() => this.handleModalFilterShow()}
+        handleNavCloseNodeInfo={this.handleNavCloseNodeInfo}
         />
 
         {this.state.nodeInfo && <NodeInfo 
