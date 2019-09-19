@@ -1,0 +1,57 @@
+.modal-custom-width {
+  width: 40%;
+}
+.modal-content {
+  background-color: rgb(13, 27, 50);
+  color: #fff;
+  font-family: 'Lato', sans-serif;
+}
+
+.DVInfoBody > p {
+  margin-top: 0px;
+}
+.DVInfoBody {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.DVInfoBody > h2 {
+  color: #fff;
+  padding: 10px 0px;
+  text-transform: none;
+  font-size: 23px;
+  text-align: left;
+  font-weight: 500;
+}
+.DVInfoBody > p > a{
+  font-weight: 600;
+}
+.DVInfoBody > p > a:hover {
+  color: #A94134;
+  font-weight: 600;
+}
+.DVInfoHr {
+  height: 0;
+  margin: 1rem 0;
+  overflow: hidden;
+  border-top: 1px solid #dee2e6;
+}
+.close {
+  color: #fff;
+  text-shadow: none;
+}
+
+@media(max-width: 991px) {
+  .modal-custom-width {
+    width: 70%;
+    left: 3%;
+    top: 5%;
+  }
+}
+@media (max-width: 575px){
+  .modal-custom-width {
+    width: 85%;
+    left: 5%;
+    top: 10%;
+  }
+}

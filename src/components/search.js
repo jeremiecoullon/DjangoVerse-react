@@ -1,6 +1,8 @@
 import React from 'react';
 import Select from 'react-select'
 
+import './search.css';
+
 function Search(props) {
   const customStyles = {
     control: styles => ({ ...styles, backgroundColor: 'white', 'width': 250}),

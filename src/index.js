@@ -2,19 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ForceGraph3D from 'react-force-graph-3d';
 import * as THREE from 'three';
-
+import SpriteText from 'three-spritetext';
 
 import NodeInfo from './components/nodeInfo';
 import ModalDVInfo from './components/ModalDVInfo';
 import NavBar from './components/NavBar';
 import ModalFilterGraph from './components/ModalFilterGraph';
-import SpriteText from 'three-spritetext';
+
+
 import './index.css';
-// import './navbar.css';
 import './MyFontsWebfontsKit.css';
 
-const APIdomain = 'https://londondjangocollective.herokuapp.com/'
-// const APIdomain = 'http://localhost:5000/'
+const APIdomain = 'https://londondjangocollective.herokuapp.com/';
+// const APIdomain = 'http://localhost:5000/';
 
 
 
@@ -39,9 +39,7 @@ class DjangoVerse extends React.Component {
 	}
 
   async componentDidMount(addLights=true) {
-  	// ASYNC VERSION
     try {
-      // const res = await fetch('http://localhost:5000/players/?format=json');
       const res = await fetch(APIdomain+'api/D3endpoint/?format=json' + this.state.queryParams);
       const res2 = await fetch(APIdomain+'api/countries/?format=json');
       
@@ -183,7 +181,7 @@ class DjangoVerse extends React.Component {
       countryCodes[item[0]] = item[1]
     })
 
-// {this.state.toggleFilter && <FilterGraph reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}} APIdomain={APIdomain}/>}
+
     return (
 
       <React.Fragment>
@@ -218,7 +216,7 @@ class DjangoVerse extends React.Component {
           backgroundColor={"black"}
 
           nodeThreeObject={node => {
-            // use a sphere as a drag handle
+            // use an invisible sphere to be able to click on a node
             const obj = new THREE.Mesh(
               new THREE.SphereGeometry(10),
               new THREE.MeshBasicMaterial({ depthWrite: false, transparent: true, opacity: 0 })

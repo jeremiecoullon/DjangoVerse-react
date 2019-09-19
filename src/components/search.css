@@ -1,0 +1,9 @@
+
+.box_search {
+  margin: 8px;
+  padding: 1px 5px 5px 5px;
+  min-width: 140px;
+  z-index: 1000;
+  opacity: 0.8;
+  border-radius: 3px;   
+}

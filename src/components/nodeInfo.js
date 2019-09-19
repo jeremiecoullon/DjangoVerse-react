@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './nodeInfo.css';
+
 
 function NodeInfo(props) {
   // number of players rendered in the graph that the selected player has gigged with
