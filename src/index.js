@@ -218,7 +218,7 @@ class DjangoVerse extends React.Component {
           nodeThreeObject={node => {
             // use an invisible sphere to be able to click on a node
             const obj = new THREE.Mesh(
-              new THREE.SphereGeometry(10),
+              new THREE.SphereGeometry(15),
               new THREE.MeshBasicMaterial({ depthWrite: false, transparent: true, opacity: 0 })
             );
             // add text sprite as child
