@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 import './modalBoxes.css';
-import './ModalFilterGraph.css';
+import './modalFilterGraph.css';
 
 
 class ModalFilterGraph extends React.Component {

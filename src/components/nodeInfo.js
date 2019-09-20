@@ -40,8 +40,9 @@ function NodeInfo(props) {
         <ReactTooltip id='Connection_info' type='dark'>
           <span>A connection means that<br></br> the players have gigged together</span>
         </ReactTooltip>
-
       </ul>
+      {props.nodeInfo.node.video_embed && <p onClick={props.handleModalYoutubeShow}>Open modal!</p>}
+      
   			<p className="node_info_description">{props.nodeInfo.node.description}</p>
 			</div>
 		</div>)

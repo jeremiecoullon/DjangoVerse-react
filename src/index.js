@@ -5,10 +5,10 @@ import * as THREE from 'three';
 import SpriteText from 'three-spritetext';
 
 import NodeInfo from './components/nodeInfo';
-import ModalDVInfo from './components/ModalDVInfo';
-import NavBar from './components/NavBar';
-import ModalFilterGraph from './components/ModalFilterGraph';
-
+import ModalDVInfo from './components/modalDVInfo';
+import NavBar from './components/navBar';
+import ModalFilterGraph from './components/modalFilterGraph';
+import ModalYoutubeEmbed from './components/modalYoutubeEmbed';
 
 import './index.css';
 import './MyFontsWebfontsKit.css';
@@ -31,6 +31,8 @@ class DjangoVerse extends React.Component {
       toggleFilter: false,
       toggleModalFilter: false,
       toggleDVInfo: true,
+      toggleModalYoutube: false,
+      ModalYoutubeID: null,
       list_countries: {
         'player': ['FR',]
       },
@@ -114,7 +116,13 @@ class DjangoVerse extends React.Component {
 
   _handleClick = node => {
     // update state to render NodeInfo
-    this.setState({'nodeInfo': {node}})
+    this.setState({nodeInfo: {node}})
+
+    // if node has youtube ID, set state. Else set the state to null
+    const ModalYoutubeIDState = node.video_embed? node.video_embed : null;
+    this.setState({ModalYoutubeID: ModalYoutubeIDState});
+    
+
     // Aim at node from outside it
     let distance = 200
     if (node.type === 'festival'){
@@ -223,6 +231,13 @@ class DjangoVerse extends React.Component {
     this.setState({'toggleModalFilter': false})
   }
 
+  handleModalYoutubeShow() {
+    this.setState({'toggleModalYoutube': true})
+  }
+  handleModalYoutubeClose() {
+    this.setState({'toggleModalYoutube': false})
+  }
+
   render() {
     // add 'value' and 'label' to each node
     let searchList = this.state.gypsyJazzScene.nodes.map(obj => {
@@ -258,7 +273,9 @@ class DjangoVerse extends React.Component {
           nodeInfo={this.state.nodeInfo} 
           closeBoxFun={() => {this.handleCloseNodeInfo()}} 
           arrayNodeIDs={arrayNodeIDs} 
-          countryCodes={countryCodes} />}
+          countryCodes={countryCodes} 
+          handleModalYoutubeShow={() => this.handleModalYoutubeShow()}
+          />}
         
         
 
@@ -306,6 +323,12 @@ class DjangoVerse extends React.Component {
         reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}
         APIdomain={APIdomain}
         />,
+
+        <ModalYoutubeEmbed
+          show={this.state.toggleModalYoutube}
+          handleClose={() => this.handleModalYoutubeClose()}
+          YoutubeID={this.state.ModalYoutubeID}
+        />
 
       </React.Fragment>
       );
