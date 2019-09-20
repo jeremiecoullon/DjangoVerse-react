@@ -13,6 +13,7 @@ function ModalYoutubeEmbed(props) {
       show={props.show} 
       onHide={props.handleClose}
       size="lg"
+      centered
       // dialogClassName="modal-YoutubeEmbed"
       aria-labelledby="contained-modal-title-vcenter"
       >

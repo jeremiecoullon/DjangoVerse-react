@@ -54,6 +54,9 @@ height: 100px;
   list-style: none;
   padding-left: 0px;
 }
+.node_info_list > li {
+  padding-top: 5px;
+}
 .node_info_description{
   margin-top: 0;
 }
@@ -86,8 +89,10 @@ height: 100px;
     content: '?';
     font-weight: bold;
     color: #fff;
-
 }
+/*.navbar-buttons {
+    background-color: #000000cf;
+}*/
 
 @media(max-width: 991px) {
   .box_info {
