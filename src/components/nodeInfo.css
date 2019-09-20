@@ -1,7 +1,7 @@
 .box_info {
 
 	margin: 8px;
-	padding: 23px;
+  padding: 23px;
 	min-width: 140px;
 	/*background: rgba(230, 230, 250, 0.7);*/
   background-color: rgb(55, 90, 127, 0.5);
@@ -98,9 +98,22 @@ height: 100px;
   .box_info {
     bottom: 10px;
     top: auto;
+    padding: 18px;
+    padding-bottom: 8px;
+    font-size: 13px;
   }
   .node_info_image{
-    width: 150px;
-    height: 100px;
+    width: 120px;
+    height: 80px;
+  }
+  .node_info_node_name{
+    font-size: 15px;
+  }
+  .btn {
+    font-size: 12px;
+    padding: 0.300rem .65em;
+  }
+  .node_info_description{
+    font-size: 13px;
   }
 }
