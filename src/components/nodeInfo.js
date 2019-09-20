@@ -29,9 +29,14 @@ function NodeInfo(props) {
       {props.nodeInfo.node.thumbnail && <img src={props.nodeInfo.node.thumbnail} className="node_info_image" alt="player"></img>}
       <ul className="node_info_list">
         <li>Instrument{props.nodeInfo.node.instrument.length >1 ? "s":""}: {stringInstruments}</li>
-        <li><span data-tip data-for='Connection_info' data-multiline={true} id="Connection_darken">{giggedWithLength} Connection{giggedWithLength === 1 ? "":"s"}</span></li>
+        <li>
+          <span className="relative">
+            {giggedWithLength} Connection{giggedWithLength === 1 ? "":"s"}
+            <div data-tip data-for='Connection_info' data-multiline={true}  className='help-tip-question-mark'>
+            </div>
+          </span>
+        </li>
 
-        
         <ReactTooltip id='Connection_info' type='dark'>
           <span>A connection means that<br></br> the players have gigged together</span>
         </ReactTooltip>

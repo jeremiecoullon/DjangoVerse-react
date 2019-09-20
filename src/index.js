@@ -157,7 +157,7 @@ class DjangoVerse extends React.Component {
    if (node.source.highlightNode || node.target.highlightNode){
         return 1.5}
       else{
-          return 0.3
+          return 0.4
         }
   }
 
