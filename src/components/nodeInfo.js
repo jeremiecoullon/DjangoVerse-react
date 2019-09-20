@@ -27,32 +27,71 @@ function NodeInfo(props) {
       <div className="nodeInfoHr"></div>
 
 			<div className="node_info_box">
-      {props.nodeInfo.node.thumbnail && <img src={props.nodeInfo.node.thumbnail} className="node_info_image" alt="player"></img>}
-      <ul className="node_info_list">
-        <li>Instrument{props.nodeInfo.node.instrument.length >1 ? "s":""}: {stringInstruments}</li>
-        <li>
-          <span className="relative">
-            {giggedWithLength} Connection{giggedWithLength === 1 ? "":"s"}
-            <div data-tip data-for='Connection_info' data-multiline={true}  className='help-tip-question-mark'>
-            </div>
-          </span>
-        </li>
-        <ReactTooltip id='Connection_info' type='dark'>
-          <span>A connection means that<br></br> the players have gigged together</span>
-        </ReactTooltip>
 
-        {props.nodeInfo.node.video_embed && 
-          <li>
-            <Button variant="outline-light" onClick={props.handleModalYoutubeShow}>
-              Listen <i class="fa fa-youtube-play" aria-hidden="true"></i>
-            </Button>
-          </li>
+      
+                    
+        {props.nodeInfo.node.thumbnail && 
+          <React.Fragment>
+          <div className='row'>
+            <div className='col-6 col-xs-6 col-md-6  NodeInfoCols'>
+              <img src={props.nodeInfo.node.thumbnail} className="node_info_image" alt="player"></img>
+            </div>
+          <div className='col-6 col-xs-6 col-md-6  NodeInfoCols'>
+              <NodeInfoList 
+              nodeInfo={props.nodeInfo} 
+              handleModalYoutubeShow={props.handleModalYoutubeShow}
+              arrayNodeIDs={props.arrayNodeIDs}
+              />
+          </div>
+          </div>
+        </React.Fragment>
         }
-        
-      </ul>
+            
+        {!props.nodeInfo.node.thumbnail && 
+          <React.Fragment>
+            <NodeInfoList 
+            nodeInfo={props.nodeInfo} 
+            handleModalYoutubeShow={props.handleModalYoutubeShow}
+            arrayNodeIDs={props.arrayNodeIDs}
+            />
+        </React.Fragment>
+        }
+          
+      
+
+
   			<p className="node_info_description">{props.nodeInfo.node.description}</p>
 			</div>
 		</div>)
+}
+
+function NodeInfoList(props){
+  // number of players rendered in the graph that the selected player has gigged with
+  const giggedWithLength = props.nodeInfo.node.gigged_with.filter(x => props.arrayNodeIDs.includes(x)).length
+  const stringInstruments = props.nodeInfo.node.instrument.map(x => x['name']).join(", ")
+    return (<React.Fragment>
+                <ul className="node_info_list">
+            <li>Instrument{props.nodeInfo.node.instrument.length >1 ? "s":""}: {stringInstruments}</li>
+            <li>
+              <span className="relative">
+                {giggedWithLength} Connection{giggedWithLength === 1 ? "":"s"}
+                <div data-tip data-for='Connection_info' data-multiline={true}  className='help-tip-question-mark'>
+                </div>
+              </span>
+            </li>
+            <ReactTooltip id='Connection_info' type='dark'>
+              <span>A connection means that<br></br> the players have gigged together</span>
+            </ReactTooltip>
+
+            {props.nodeInfo.node.video_embed && 
+              <li>
+                <Button variant="outline-light" onClick={props.handleModalYoutubeShow}>
+                  Listen <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                </Button>
+              </li>
+            }
+          </ul>
+      </React.Fragment>)
 }
 
 // <li><i class="fa fa-youtube-play" aria-hidden="true"></i> Check out their music</li>

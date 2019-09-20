@@ -90,9 +90,10 @@ height: 100px;
     font-weight: bold;
     color: #fff;
 }
-/*.navbar-buttons {
-    background-color: #000000cf;
-}*/
+.NodeInfoCols {
+  /*padding-left: 2px;
+  padding-right: 2px;*/
+}
 
 @media(max-width: 991px) {
   .box_info {
@@ -108,6 +109,7 @@ height: 100px;
   }
   .node_info_node_name{
     font-size: 15px;
+    padding-left: 10px;
   }
   .btn {
     font-size: 12px;
