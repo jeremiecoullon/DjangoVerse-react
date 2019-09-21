@@ -16,7 +16,7 @@ function NodeInfo(props) {
         </a>) : 
           (<h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.countryCodes[props.nodeInfo.node.country]})</h5>)}
           <div className="node_info_close_edit">
-            <a title="edit" className="node_info_edit" href={`http://www.londondjangocollective.com/api/forms/player/${props.nodeInfo.node.id}/edit`}>
+            <a title="edit" className="node_info_edit" href={`http://www.londondjangocollective.com/api/forms/player/${props.nodeInfo.node.id}/edit`} target="_parent" >
               <i className='fa fa-pencil'></i>
             </a>
             <button title="close" type="button"  aria-label="Close" className="close node_info_close" onClick={props.closeBoxFun}>
