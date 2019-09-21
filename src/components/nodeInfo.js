@@ -14,14 +14,18 @@ function NodeInfo(props) {
 		<div className='box_info' id='node_info'>
       <div className='row node_info_header'>
         {props.nodeInfo.node.external_URL? 
-          (<a href={props.nodeInfo.node.external_URL} target="_blank"  rel="noopener noreferrer">
-          <h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.countryCodes[props.nodeInfo.node.country]})</h5>
+          (<a className="node_info_node_name" href={props.nodeInfo.node.external_URL} target="_blank"  rel="noopener noreferrer">
+          <h5 >{props.nodeInfo.node.name} ({props.countryCodes[props.nodeInfo.node.country]})</h5>
         </a>) : 
           (<h5 className="node_info_node_name">{props.nodeInfo.node.name} ({props.countryCodes[props.nodeInfo.node.country]})</h5>)}
-
-          <button type="button" className="close node_info_close" aria-label="Close" onClick={props.closeBoxFun}>
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <div className="node_info_close_edit">
+            <a title="edit" className="node_info_edit" href={`http://www.londondjangocollective.com/api/forms/player/${props.nodeInfo.node.id}/edit`}>
+              <i className='fa fa-pencil'></i>
+            </a>
+            <button title="close" type="button"  aria-label="Close" className="close node_info_close" onClick={props.closeBoxFun}>
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
       </div>
 
       <div className="nodeInfoHr"></div>
