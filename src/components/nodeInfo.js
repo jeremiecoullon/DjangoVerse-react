@@ -6,9 +6,6 @@ import './nodeInfo.css';
 
 
 function NodeInfo(props) {
-  // number of players rendered in the graph that the selected player has gigged with
-  const giggedWithLength = props.nodeInfo.node.gigged_with.filter(x => props.arrayNodeIDs.includes(x)).length
-	const stringInstruments = props.nodeInfo.node.instrument.map(x => x['name']).join(", ")
 
   return (
 		<div className='box_info' id='node_info'>

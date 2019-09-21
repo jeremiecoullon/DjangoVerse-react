@@ -12,6 +12,12 @@ import ModalYoutubeEmbed from './components/modalYoutubeEmbed';
 
 import './index.css';
 import './MyFontsWebfontsKit.css';
+import backImage from './img/backImage.png';
+import downImage from './img/downImage.png';
+import frontImage from './img/frontImage.png';
+import leftImage from './img/leftImage.png';
+import rightImage from './img/rightImage.png';
+import upImage from './img/upImage.png';
 
 const APIdomain = 'https://londondjangocollective.herokuapp.com/';
 // const APIdomain = 'http://localhost:5000/';
@@ -84,6 +90,7 @@ class DjangoVerse extends React.Component {
     if (addLights === true) {
       this.addLights()  
     }
+    this.skybox();
     }
 
   reCentreCamera(){
@@ -169,14 +176,12 @@ class DjangoVerse extends React.Component {
         }
   }
 
-  // skybox(){
-    // NEED TO FIX CORS PROBLEM
-  //   var directions  = ["https://steemverse.com/img/skyboxes/Stars01/leftImage.png", "https://steemverse.com/img/skyboxes/Stars01/rightImage.png", "https://steemverse.com/img/skyboxes/Stars01/upImage.png", "https://steemverse.com/img/skyboxes/Stars01/downImage.png", "https://steemverse.com/img/skyboxes/Stars01/frontImage.png", "https://steemverse.com/img/skyboxes/Stars01/backImage.png"];
-  //   var reflectionCube = new THREE.CubeTextureLoader().load(directions, function(){
-  //     reflectionCube.format = THREE.RGBFormat;
-  //     this.fg.scene.background = reflectionCube;
-  //   });
-  // }
+  skybox(){
+    var directions  = [leftImage, rightImage, upImage, downImage, frontImage, backImage];
+    var reflectionCube = new THREE.CubeTextureLoader().load(directions);
+    this.fg.scene().background = reflectionCube;
+  }
+
   addLights() {
     // this is better lighting than the default
     var light = new THREE.PointLight(0xff0000, 50, 1)
@@ -186,6 +191,8 @@ class DjangoVerse extends React.Component {
     this.fg.scene().add(light);
     this.fg.scene().add(ambientLight);
     this.fg.scene().add(dirLight);
+
+    
   }
 
   handleCloseNodeInfo(){
@@ -306,7 +313,7 @@ class DjangoVerse extends React.Component {
               sprite.color=node.color
             }
             else {
-              sprite.color=node.color.concat('66');
+              sprite.color=node.color.concat('33');//.concat('66'); // 33: 20%, 4D: 30%, 66: 40%
             }
 
             sprite.textHeight = 8;

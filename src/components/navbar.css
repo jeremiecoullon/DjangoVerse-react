@@ -1,10 +1,3 @@
-body {
-    width: 100%;
-    height: 100%;
-    font-family: 'Lato', sans-serif;
-     background: #E0C6B5;
-     
-}
 p {
     margin-top: 10%;
     font-size: 15px;
@@ -38,7 +31,7 @@ h1 {
   padding-left: 40px;
 }
 
-.navbar-LDC {
+.navbar-DV {
   margin-left: 40px;
   cursor: pointer;
 }
@@ -48,9 +41,6 @@ h1 {
     padding-top: 0px;
     padding-bottom: 0px;
     height: 50px;
-}
-.content-section{
-    padding-top: 40px;
 }
 
 a {
@@ -80,7 +70,7 @@ a:hover{
 .navbar-buttons {
     background-color: #000000cf;
 }
-#LDC-in-navbar {
+#DjangoVerse-title-navbar {
     /*color: #fff;*/
     color: #395699;
     font-family: Unpack-Fast;
@@ -100,9 +90,13 @@ a:hover{
 .DVInfoButton{
     padding-top: 7px;
 }
-.navbar-switch-button{
-    
+.LDC_logo{
+    width: 40px;
 }
+.LDC-navbar{
+    margin-left: 15px;
+}
+
 @media(max-width: 414px) {
     h1 {
         font-size: 4em;
@@ -114,7 +108,7 @@ a:hover{
         font-size: 25px;
         padding-right: 0px;
     }
-    .navbar-LDC {
+    .navbar-DV {
         margin-left: 0px;
     }
 }
@@ -129,7 +123,7 @@ a:hover{
   }
 
 @media(min-width: 945px) {
-    .navbar-LDC {
+    .navbar-DV {
         margin-left: 14%;
     }
 }
