@@ -172,7 +172,7 @@ class DjangoVerse extends React.Component {
    if (node.source.highlightNode || node.target.highlightNode){
         return 1.5}
       else{
-          return 0.4
+          return 0.3
         }
   }
 
@@ -313,7 +313,7 @@ class DjangoVerse extends React.Component {
               sprite.color=node.color
             }
             else {
-              sprite.color=node.color.concat('33');//.concat('66'); // 33: 20%, 4D: 30%, 66: 40%
+              sprite.color=node.color.concat('26'); // 1A: 10%, 26: 15%, 33: 20%, 4D: 30%, 66: 40%
             }
 
             sprite.textHeight = 8;
