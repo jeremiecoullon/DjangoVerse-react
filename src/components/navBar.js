@@ -35,7 +35,7 @@ function NavBar(props) {
             </Button>
           </div>
           <div className='navbar-links'>
-            <Button variant="outline-primary" className="navbar-buttons" href="http://www.londondjangocollective.com/api/forms/player/list">
+            <Button variant="outline-primary" className="navbar-buttons" target="_parent" href="http://www.londondjangocollective.com/api/forms/player/list">
               Add players
             </Button>
           </div>

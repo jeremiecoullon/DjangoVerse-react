@@ -43,8 +43,10 @@ function ModalDVInfo(props) {
           </p>
           <ul>
           <li>What they play and who they've gigged with</li>
+          <li>Which country they're based in</li>
           <li>A short description of who they are</li>
           <li>A picture of them</li>
+          <li>A youtube video of them playing</li>
           <li>A URL to their website</li>
           </ul>
           <p>You can also <a href="http://www.londondjangocollective.com/api/forms/instrument/add" target="_parent"  rel="noopener noreferrer">add</a> or <a href="http://www.londondjangocollective.com/api/forms/instrument/list" target="_parent"  rel="noopener noreferrer">edit</a> instruments.</p>
