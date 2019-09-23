@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-import posed from 'react-pose';
+// import posed from 'react-pose';
 
 import './helpPopup.css';
 
@@ -15,9 +15,6 @@ import './helpPopup.css';
 function HelpPopup(props) {
 
 	return (<React.Fragment>
-
-			
-
 			<div className='helpBox'>
 				<div className='helpBoxHeader'>
 					<h3>DjangoVerse help {props.numHelp}</h3> 
@@ -33,6 +30,7 @@ function HelpPopup(props) {
 			            Got it!
 		          </Button>
 				</div>
+				
 			</div>
 
 		</React.Fragment>)

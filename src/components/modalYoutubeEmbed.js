@@ -23,7 +23,7 @@ function ModalYoutubeEmbed(props) {
         </Modal.Header>
         
         <Modal.Body>
-        	<iframe width="100%" className="youtubeEmbediframe" src={props.YoutubeID} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        	<iframe title="player's YouTub video" width="100%" className="youtubeEmbediframe" src={props.YoutubeID} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </Modal.Body>
         
         <Modal.Footer>
