@@ -9,6 +9,7 @@ import ModalDVInfo from './components/modalDVInfo';
 import NavBar from './components/navBar';
 import ModalFilterGraph from './components/modalFilterGraph';
 import ModalYoutubeEmbed from './components/modalYoutubeEmbed';
+import HelpPopup from './components/helpPopup';
 
 import './index.css';
 import './MyFontsWebfontsKit.css';
@@ -36,12 +37,14 @@ class DjangoVerse extends React.Component {
       selectedOption: null,
       toggleFilter: false,
       toggleModalFilter: false,
-      toggleDVInfo: true,
+      toggleDVInfo: false,
       toggleModalYoutube: false,
       ModalYoutubeID: null,
       list_countries: {
         'player': ['FR',]
       },
+      toggleHelpBox1: true,
+      toggleHelpBox2: false,
 		}
     this.handleToggleFilter = this.handleToggleFilter.bind(this);
     this.handleNavCloseNodeInfo = this.handleNavCloseNodeInfo.bind(this);
@@ -129,12 +132,13 @@ class DjangoVerse extends React.Component {
     const ModalYoutubeIDState = node.video_embed? node.video_embed : null;
     this.setState({ModalYoutubeID: ModalYoutubeIDState});
     
-
+    const giggedWith = this.state.gypsyJazzScene.nodes.filter(x => node.gigged_with.includes(x['id']))
+    const numGiggedWith = giggedWith.length;
     // Aim at node from outside it
-    let distance = 400
-    if (node.type === 'festival'){
-        distance = 400;
-      }
+    let distance = Math.cbrt(1 + numGiggedWith)*150
+    // if (node.type === 'festival'){
+    //     distance = 400;
+    //   }
     // else {
     //   distance = 100
     // }
@@ -154,8 +158,7 @@ class DjangoVerse extends React.Component {
     this.state.gypsyJazzScene.nodes.forEach(function(e) {e['showNode']=false})
     // Make selected node opaque again
     node.showNode=true
-    // Make all connected players also opaque
-    const giggedWith = this.state.gypsyJazzScene.nodes.filter(x => node.gigged_with.includes(x['id']))
+    // Make all connected players also opaque (used `giggedWith` as defined above)
     giggedWith.forEach(function(e) {e['showNode']=true})
   };
 
@@ -243,6 +246,14 @@ class DjangoVerse extends React.Component {
   }
   handleModalYoutubeClose() {
     this.setState({'toggleModalYoutube': false})
+  }
+
+  handleHelpBox1Close() {
+    this.setState({'toggleHelpBox1': false})
+    setTimeout(() => this.setState({'toggleHelpBox2': true}), 1000)
+  }
+  handleHelpBox2Close() {
+    this.setState({'toggleHelpBox2': false})
   }
 
   render() {
@@ -336,6 +347,22 @@ class DjangoVerse extends React.Component {
           handleClose={() => this.handleModalYoutubeClose()}
           YoutubeID={this.state.ModalYoutubeID}
         />
+
+        {this.state.toggleHelpBox1 && 
+          <HelpPopup
+            isVisible={this.state.toggleHelpBox1}
+            body={"Click on a player to see who they've gigged with (click twice on mobile)"}
+            numHelp={"1/2"}
+            handleClose={() => this.handleHelpBox1Close()}
+          />}
+
+        {this.state.toggleHelpBox2 && 
+          <HelpPopup
+            isVisible={this.state.toggleHelpBox2}
+            body={"The colours represent the countries the players are based in"}
+            numHelp={"2/2"}
+            handleClose={() => this.handleHelpBox2Close()}
+          />}
 
       </React.Fragment>
       );
