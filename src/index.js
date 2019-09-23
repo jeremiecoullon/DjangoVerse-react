@@ -131,9 +131,9 @@ class DjangoVerse extends React.Component {
     
 
     // Aim at node from outside it
-    let distance = 200
+    let distance = 400
     if (node.type === 'festival'){
-        distance = 200;
+        distance = 400;
       }
     // else {
     //   distance = 100
@@ -313,7 +313,7 @@ class DjangoVerse extends React.Component {
               sprite.color=node.color
             }
             else {
-              sprite.color=node.color.concat('26'); // 1A: 10%, 26: 15%, 33: 20%, 4D: 30%, 66: 40%
+              sprite.color=node.color.concat('33'); // 1A: 10%, 26: 15%, 33: 20%, 4D: 30%, 66: 40%
             }
 
             sprite.textHeight = 8;

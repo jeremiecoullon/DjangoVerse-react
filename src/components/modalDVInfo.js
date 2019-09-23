@@ -23,7 +23,8 @@ function ModalDVInfo(props) {
 
         <div className="DVInfoBody">
           <h2>The DjangoVerse</h2>
-          <p>The DjangoVerse is a 3D graph of players in the Gypsy Jazz scene around the world. The different colours correspond to different countries. Two players are linked if they have gigged together.</p>
+          <p>The DjangoVerse is a 3D graph of players in the Gypsy Jazz scene around the world.</p>
+          <p>The different colours correspond to different countries. Two players are linked if they have gigged together.</p>
           <p>Some things you can do with the DjangoVerse are:</p>
           <ul>
           <li><b>On desktop:</b> hover over a player to get the country they're based in, and click on them to zoom in</li>
