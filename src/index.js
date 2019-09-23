@@ -359,7 +359,7 @@ class DjangoVerse extends React.Component {
         {this.state.toggleHelpBox2 && 
           <HelpPopup
             isVisible={this.state.toggleHelpBox2}
-            body={"The colours represent the countries the players are based in"}
+            body={"The colours correspond to the countries the players are based in"}
             numHelp={"2/2"}
             handleClose={() => this.handleHelpBox2Close()}
           />}

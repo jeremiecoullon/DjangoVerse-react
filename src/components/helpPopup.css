@@ -6,7 +6,8 @@
   color: #fff;
 	z-index: 500;
 	border-radius: 3px;  	
-  font: normal normal normal 14px/1 FontAwesome;
+  /*font: normal normal normal 14px/1 FontAwesome;*/
+  font-weight: 300;
   line-height: 20px;
   font-size: 13px;
   text-align: center;
@@ -15,6 +16,11 @@
   top: 59px;
   width: 250px;
   min-height: 180px;
+}
+.helpBoxBody > p {
+  font-weight: 300;
+  line-height: 20px;
+  font-size: 13px;
 }
 .helpBoxHeader > h3 {
   font-size: 14px;
@@ -39,4 +45,9 @@
   position: absolute;
   right: 500px;
   top: 59px;
+}
+@media(max-width: 991px) {
+  .helpBox{
+    width: 220px
+  }
 }
