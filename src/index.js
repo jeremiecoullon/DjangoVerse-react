@@ -250,7 +250,7 @@ class DjangoVerse extends React.Component {
 
   handleHelpBox1Close() {
     this.setState({'toggleHelpBox1': false})
-    setTimeout(() => this.setState({'toggleHelpBox2': true}), 1000)
+    setTimeout(() => this.setState({'toggleHelpBox2': true}), 800)
   }
   handleHelpBox2Close() {
     this.setState({'toggleHelpBox2': false})
@@ -351,7 +351,7 @@ class DjangoVerse extends React.Component {
         {this.state.toggleHelpBox1 && 
           <HelpPopup
             isVisible={this.state.toggleHelpBox1}
-            body={"Click on a player to see who they've gigged with (click twice on mobile)"}
+            body={"The colours correspond to the countries the players are based in"}
             numHelp={"1/2"}
             handleClose={() => this.handleHelpBox1Close()}
           />}
@@ -359,7 +359,7 @@ class DjangoVerse extends React.Component {
         {this.state.toggleHelpBox2 && 
           <HelpPopup
             isVisible={this.state.toggleHelpBox2}
-            body={"The colours correspond to the countries the players are based in"}
+            body={"Click on a player to see who they've gigged with (click twice on mobile)"}
             numHelp={"2/2"}
             handleClose={() => this.handleHelpBox2Close()}
           />}
