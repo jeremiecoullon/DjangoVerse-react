@@ -1,17 +1,9 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-// import posed from 'react-pose';
 
 import './helpPopup.css';
 
 
-// const Box = posed.div((
-// 	{
-// 		hidden: { opacity: 0, transition: { duration: 1000 } },
-// 		visible: { opacity: 1, transition: { duration: 1000 } }
-// 	}
-//   ))
-// <Box className="box helpBox testBox" pose={props.isVisible ? 'visible' : 'hidden'} />;
 function HelpPopup(props) {
 
 	return (<React.Fragment>

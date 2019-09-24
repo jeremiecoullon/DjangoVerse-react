@@ -45,6 +45,7 @@ class DjangoVerse extends React.Component {
       },
       toggleHelpBox1: true,
       toggleHelpBox2: false,
+      initialLoad: true,
 		}
     this.handleToggleFilter = this.handleToggleFilter.bind(this);
     this.handleNavCloseNodeInfo = this.handleNavCloseNodeInfo.bind(this);
@@ -57,7 +58,8 @@ class DjangoVerse extends React.Component {
       
       const gypsyJazzScene = await res.json();
       this.setState({
-        gypsyJazzScene
+        gypsyJazzScene: gypsyJazzScene,
+        initialLoad: false // `initialLoad`` allows the loading spinner only to appear at the beginning
       });
       const list_countries = await res2.json();
       this.setState({
@@ -270,6 +272,7 @@ class DjangoVerse extends React.Component {
     this.state['list_countries']['player'].forEach( function (item, index) {
       countryCodes[item[0]] = item[1]
     })
+    // console.log("Nodes", this.state.gypsyJazzScene.nodes.length===0)
 
 
     return (
@@ -363,6 +366,8 @@ class DjangoVerse extends React.Component {
             numHelp={"2/2"}
             handleClose={() => this.handleHelpBox2Close()}
           />}
+
+          {(this.state.gypsyJazzScene.nodes.length===0) && this.state.initialLoad && <i class="fa fa-spinner fa-spin loading_spinner"></i>}
 
       </React.Fragment>
       );
