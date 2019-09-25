@@ -5,8 +5,7 @@
   background-color: #005fe6eb;
   color: #fff;
 	z-index: 500;
-	border-radius: 3px;  	
-  /*font: normal normal normal 14px/1 FontAwesome;*/
+	border-radius: 3px;
   font-weight: 300;
   line-height: 20px;
   font-size: 13px;
@@ -15,7 +14,6 @@
   right: 0;
   top: 59px;
   width: 250px;
-  min-height: 180px;
 }
 .helpBoxBody > p {
   font-weight: 300;
@@ -48,6 +46,18 @@
 }
 @media(max-width: 991px) {
   .helpBox{
-    width: 220px
+    width: 200px;
+  }
+  .helpBoxBody > p {
+    line-height: 17px;
+    font-size: 9px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+  .helpBoxHeader > h3 {
+    font-size: 9px;
+  }
+  .helpBoxFooter > button {
+    font-size: 9px;
   }
 }
