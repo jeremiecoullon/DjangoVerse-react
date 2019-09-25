@@ -31,11 +31,11 @@ function NodeInfo(props) {
 
       
                     
-        {props.nodeInfo.node.thumbnail && 
+        {props.nodeInfo.node.image && 
           <React.Fragment>
           <div className='row'>
             <div className='col-6 col-xs-6 col-md-6  NodeInfoCols'>
-              <img src={props.nodeInfo.node.thumbnail} className="node_info_image" alt="player"></img>
+              <img src={props.nodeInfo.node.image} className="node_info_image" alt="player"></img>
             </div>
           <div className='col-6 col-xs-6 col-md-6  NodeInfoCols'>
               <NodeInfoList 
@@ -48,7 +48,7 @@ function NodeInfo(props) {
         </React.Fragment>
         }
             
-        {!props.nodeInfo.node.thumbnail && 
+        {!props.nodeInfo.node.image && 
           <React.Fragment>
             <NodeInfoList 
             nodeInfo={props.nodeInfo} 
@@ -87,7 +87,7 @@ function NodeInfoList(props){
             {props.nodeInfo.node.video_embed && 
               <li>
                 <Button variant="outline-light" onClick={props.handleModalYoutubeShow}>
-                  Listen <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                  Listen <i className="fa fa-youtube-play" aria-hidden="true"></i>
                 </Button>
               </li>
             }
@@ -95,5 +95,4 @@ function NodeInfoList(props){
       </React.Fragment>)
 }
 
-// <li><i class="fa fa-youtube-play" aria-hidden="true"></i> Check out their music</li>
 export default NodeInfo;

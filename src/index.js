@@ -367,7 +367,7 @@ class DjangoVerse extends React.Component {
             handleClose={() => this.handleHelpBox2Close()}
           />}
 
-          {(this.state.gypsyJazzScene.nodes.length===0) && this.state.initialLoad && <i class="fa fa-spinner fa-spin loading_spinner"></i>}
+          {(this.state.gypsyJazzScene.nodes.length===0) && this.state.initialLoad && <i className="fa fa-spinner fa-spin loading_spinner"></i>}
 
       </React.Fragment>
       );

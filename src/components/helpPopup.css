@@ -46,13 +46,15 @@
 }
 @media(max-width: 991px) {
   .helpBox{
-    width: 200px;
+    width: 180px;
+    padding: 17px;
   }
   .helpBoxBody > p {
     line-height: 17px;
     font-size: 9px;
     margin-top: 5%;
     margin-bottom: 5%;
+
   }
   .helpBoxHeader > h3 {
     font-size: 9px;
