@@ -53,7 +53,7 @@ class DjangoVerse extends React.Component {
 
   async componentDidMount(addLights=true) {
     try {
-      const res = await fetch(APIdomain+'api/D3endpoint/?format=json' + this.state.queryParams);
+      const res = await fetch(APIdomain+'api/D3endpoint/?format=json' + this.state.queryParams, {cache: "no-store"});
       const res2 = await fetch(APIdomain+'api/countries/?format=json');
       
       const gypsyJazzScene = await res.json();
