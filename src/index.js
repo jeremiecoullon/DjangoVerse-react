@@ -20,8 +20,8 @@ import leftImage from './img/leftImage.png';
 import rightImage from './img/rightImage.png';
 import upImage from './img/upImage.png';
 
-const APIdomain = 'https://londondjangocollective.herokuapp.com/';
-// const APIdomain = 'http://localhost:5000/';
+const APIdomain = 'https://londondjangocollective.herokuapp.com/djangoverse/';
+// const APIdomain = 'http://localhost:5000/djangoverse/';
 
 
 

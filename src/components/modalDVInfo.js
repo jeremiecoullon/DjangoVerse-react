@@ -39,7 +39,7 @@ function ModalDVInfo(props) {
         <div className="DVInfoBody">
         <h2>Add Players</h2>
           <p>
-          You can <a href="http://www.londondjangocollective.com/api/forms/player/add" target="_parent"  rel="noopener noreferrer">add players</a> to this yourself, or <a href="http://www.londondjangocollective.com/api/forms/player/list" target="_parent"  rel="noopener noreferrer">edit existing players</a>. 
+          You can <a href="http://www.londondjangocollective.com/djangoverse/forms/player/add" target="_parent"  rel="noopener noreferrer">add players</a> to this yourself, or <a href="http://www.londondjangocollective.com/djangoverse/forms/player/list" target="_parent"  rel="noopener noreferrer">edit existing players</a>. 
           You can add information such as:
           </p>
           <ul>
@@ -50,7 +50,7 @@ function ModalDVInfo(props) {
           <li>A youtube video of them playing</li>
           <li>A URL to their website</li>
           </ul>
-          <p>You can also <a href="http://www.londondjangocollective.com/api/forms/instrument/add" target="_parent"  rel="noopener noreferrer">add</a> or <a href="http://www.londondjangocollective.com/api/forms/instrument/list" target="_parent"  rel="noopener noreferrer">edit</a> instruments.</p>
+          <p>You can also <a href="http://www.londondjangocollective.com/djangoverse/forms/instrument/add" target="_parent"  rel="noopener noreferrer">add</a> or <a href="http://www.londondjangocollective.com/djangoverse/forms/instrument/list" target="_parent"  rel="noopener noreferrer">edit</a> instruments.</p>
         </div>
 
         <div className="DVInfoHr"></div>
