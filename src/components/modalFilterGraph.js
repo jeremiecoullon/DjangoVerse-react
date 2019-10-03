@@ -31,8 +31,8 @@ class ModalFilterGraph extends React.Component {
   async componentDidMount() {
     // ASYNC VERSION
     try {
-      const res = await fetch(this.props.APIdomain+'api/countries/?format=json', {cache: "no-store"});
-      const res2 = await fetch(this.props.APIdomain+'api/all_instruments/?format=json', {cache: "no-store"});
+      const res = await fetch(this.props.APIdomain+'api/countries/?format=json', {cache: 'no-cache'});
+      const res2 = await fetch(this.props.APIdomain+'api/all_instruments/?format=json', {cache: 'no-cache'});
       
       const list_countries = await res.json();
       this.setState({

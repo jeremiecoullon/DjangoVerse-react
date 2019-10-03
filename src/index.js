@@ -53,8 +53,8 @@ class DjangoVerse extends React.Component {
 
   async componentDidMount(addLights=true) {
     try {
-      const res = await fetch(APIdomain+'api/D3endpoint/?format=json' + this.state.queryParams, {cache: "no-store"});
-      const res2 = await fetch(APIdomain+'api/countries/?format=json', {cache: "no-store"});
+      const res = await fetch(APIdomain+'api/D3endpoint/?format=json' + this.state.queryParams, {'Cache-Control': 'no-store'});
+      const res2 = await fetch(APIdomain+'api/countries/?format=json', {'Cache-Control': 'no-store'});
       
       const gypsyJazzScene = await res.json();
       this.setState({

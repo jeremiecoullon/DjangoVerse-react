@@ -56,6 +56,17 @@ function ModalDVInfo(props) {
         <div className="DVInfoHr"></div>
 
         <div className="DVInfoBody">
+          
+          <p>
+          The DjangoVerse is a project by the <a href="http://londondjangocollective.com/" target="_parent" rel="noopener noreferrer">London Django Collective</a>
+          </p>
+          <div>
+
+
+          </div>
+        </div>
+
+        <div className="DVInfoBody">
           <h2>Contribute</h2>
           <p>
           Send any feedback, bugs, or other to jeremie.coullon@gmail.com. You can open an issue or make a pull request on  <a href="https://github.com/jeremiecoullon/DjangoVerse-react" target="_parent"  rel="noopener noreferrer">Github</a>

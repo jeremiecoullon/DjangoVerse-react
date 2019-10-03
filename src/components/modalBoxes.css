@@ -41,6 +41,8 @@
   text-shadow: none;
 }
 
+/*.mc_embed_signup{background:#F8F8F8; clear:left; font:14px Helvetica,Arial,sans-serif; }*/
+
 @media(max-width: 991px) {
   .modal-custom-width {
     width: 70%;
