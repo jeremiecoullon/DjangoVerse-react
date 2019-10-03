@@ -56,9 +56,9 @@ function ModalDVInfo(props) {
         <div className="DVInfoHr"></div>
 
         <div className="DVInfoBody">
-          
+          <h2>London Django Collective</h2>
           <p>
-          The DjangoVerse is a project by the <a href="http://londondjangocollective.com/" target="_parent" rel="noopener noreferrer">London Django Collective</a>
+          The DjangoVerse is a project by the <a href="http://londondjangocollective.com/" target="_parent" rel="noopener noreferrer">London Django Collective</a>. Find them on <a href="https://www.youtube.com/channel/UCcGuUAFEeboYs5ivUlrD5fA" target="_parent" rel="noopener noreferrer">Youtube</a>, <a href="https://www.instagram.com/londondjangocollective/" target="_parent" rel="noopener noreferrer">Instagram</a>, and <a href="https://www.facebook.com/londondjangocollective/" target="_parent" rel="noopener noreferrer">Facebook</a>.
           </p>
           <div>
 
