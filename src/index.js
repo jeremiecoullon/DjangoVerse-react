@@ -20,7 +20,7 @@ import leftImage from './img/leftImage.png';
 import rightImage from './img/rightImage.png';
 import upImage from './img/upImage.png';
 
-const APIdomain = 'https://londondjangocollective.herokuapp.com/djangoverse/';
+const APIdomain = 'https://www.londondjangocollective.com/djangoverse/';
 // const APIdomain = 'http://localhost:5000/djangoverse/';
 
 
@@ -55,7 +55,7 @@ class DjangoVerse extends React.Component {
     try {
       const res = await fetch(APIdomain+'api/D3endpoint/?format=json' + this.state.queryParams, {'Cache-Control': 'no-store'});
       const res2 = await fetch(APIdomain+'api/countries/?format=json', {'Cache-Control': 'no-store'});
-      
+
       const gypsyJazzScene = await res.json();
       this.setState({
         gypsyJazzScene: gypsyJazzScene,
@@ -90,10 +90,10 @@ class DjangoVerse extends React.Component {
           return link_dist
         }
     })
-    // only add lights if loading data for the first time. 
+    // only add lights if loading data for the first time.
     // In `reloadGraph()` below: set addLights=false otherwise you keep adding more lights to the scene
     if (addLights === true) {
-      this.addLights()  
+      this.addLights()
     }
     this.skybox();
     }
@@ -123,7 +123,7 @@ class DjangoVerse extends React.Component {
     this.reloadGraph(this.state.queryParams)
   }
 
-  
+
 
 
   _handleClick = node => {
@@ -133,7 +133,7 @@ class DjangoVerse extends React.Component {
     // if node has youtube ID, set state. Else set the state to null
     const ModalYoutubeIDState = node.video_embed? node.video_embed : null;
     this.setState({ModalYoutubeID: ModalYoutubeIDState});
-    
+
     const giggedWith = this.state.gypsyJazzScene.nodes.filter(x => node.gigged_with.includes(x['id']))
     const numGiggedWith = giggedWith.length;
     // Aim at node from outside it
@@ -197,7 +197,7 @@ class DjangoVerse extends React.Component {
     this.fg.scene().add(ambientLight);
     this.fg.scene().add(dirLight);
 
-    
+
   }
 
   handleCloseNodeInfo(){
@@ -211,7 +211,7 @@ class DjangoVerse extends React.Component {
   handleNavCloseNodeInfo(e){
     // Close NodeInfo when opening the hamburger in the NavBar (but not when closing it)
     if (e){
-      this.setState({'nodeInfo': null}); 
+      this.setState({'nodeInfo': null});
       // undo link highlighing
       this.state.gypsyJazzScene.nodes.forEach(function(e) {
         e['highlightNode']=false; e['showNode']=true
@@ -278,9 +278,9 @@ class DjangoVerse extends React.Component {
     return (
 
       <React.Fragment>
-        <NavBar 
-        selectedOption={this.state.selectedOption} 
-        searchList={searchList} 
+        <NavBar
+        selectedOption={this.state.selectedOption}
+        searchList={searchList}
         handleChange={this.handleChangeSearch}
         handleToggleFilter={() => this.handleToggleFilter()}
         toggleFilter={this.state.toggleFilter}
@@ -290,15 +290,15 @@ class DjangoVerse extends React.Component {
         reloadGraphCurrentParams={() => this.reloadGraphCurrentParams()}
         />
 
-        {this.state.nodeInfo && <NodeInfo 
-          nodeInfo={this.state.nodeInfo} 
-          closeBoxFun={() => {this.handleCloseNodeInfo()}} 
-          arrayNodeIDs={arrayNodeIDs} 
-          countryCodes={countryCodes} 
+        {this.state.nodeInfo && <NodeInfo
+          nodeInfo={this.state.nodeInfo}
+          closeBoxFun={() => {this.handleCloseNodeInfo()}}
+          arrayNodeIDs={arrayNodeIDs}
+          countryCodes={countryCodes}
           handleModalYoutubeShow={() => this.handleModalYoutubeShow()}
           />}
-        
-        
+
+
 
         <ForceGraph3D
           ref={el => { this.fg = el; }}
@@ -321,7 +321,7 @@ class DjangoVerse extends React.Component {
             );
             // add text sprite as child
             const sprite = new SpriteText(node.name);
-            
+
             // transparency depends on whether node is clicked on
             if (node.showNode){
               sprite.color=node.color
@@ -338,9 +338,9 @@ class DjangoVerse extends React.Component {
 
         <ModalDVInfo show={this.state.toggleDVInfo} handleClose={() => this.handleModalDVInfoClose()} />,
 
-        <ModalFilterGraph 
-        show={this.state.toggleModalFilter} 
-        handleClose={() => this.handleModalFilterClose()} 
+        <ModalFilterGraph
+        show={this.state.toggleModalFilter}
+        handleClose={() => this.handleModalFilterClose()}
         reloadGraph={(newQueryParams) => {this.reloadGraph(newQueryParams)}}
         APIdomain={APIdomain}
         />,
@@ -351,7 +351,7 @@ class DjangoVerse extends React.Component {
           YoutubeID={this.state.ModalYoutubeID}
         />
 
-        {this.state.toggleHelpBox1 && 
+        {this.state.toggleHelpBox1 &&
           <HelpPopup
             isVisible={this.state.toggleHelpBox1}
             body={"The colours correspond to the countries the players are based in"}
@@ -359,7 +359,7 @@ class DjangoVerse extends React.Component {
             handleClose={() => this.handleHelpBox1Close()}
           />}
 
-        {this.state.toggleHelpBox2 && 
+        {this.state.toggleHelpBox2 &&
           <HelpPopup
             isVisible={this.state.toggleHelpBox2}
             body={"Click on a player to see who they've gigged with (click twice on mobile)"}
